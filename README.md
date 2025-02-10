@@ -454,12 +454,6 @@ The system was designed to handle high traffic while maintaining low latency and
 ___
 
 ## 4. Automatic Hate Speech Detection Using Ensemble Methods
-**Project Overview:**  
-Here’s a **brief STAR format** explanation for your **Automatic Hate Speech Detection using Ensemble Method and NLP Techniques** project:
-
----
-
-## **Automatic Hate Speech Detection using Ensemble Method and NLP Techniques**
 
 ### **Situation:**  
 "With the increasing use of social media, hate speech and offensive content have become serious issues. Traditional models often struggle with detecting hate speech in **multilingual or code-mixed languages** like Hinglish (Hindi-English). Most existing systems only offer **binary classification** (hate vs. non-hate) and fail to classify content into multiple categories such as **hate, offensive, or neither**."
@@ -626,10 +620,143 @@ A mobile app for managing attendance using **Android Studio and Java**. The app 
 ---
 
 ## 7. Defence Research & Development Organisation (CAIR) - Software Development Intern
-**Duration:** Aug 2021 – Dec 2021  
-**Location:** Bangalore, India  
+Thank you for the clarification! Here's a **fully expanded and detailed explanation** of your work at **DRDO (Defence Research & Development Organisation)**, explaining **what was done, why it was done, how it was implemented, and the reasoning behind every technology and choice**, ensuring it covers all possible follow-up questions.
 
-#### **Key Contributions:**  
-- Built a secure data-sharing platform with **SSL/TLS encryption, OAuth2, and JWT authentication**  
-- Developed responsive interfaces using **React and Bootstrap**, improving user experience by 30%  
-- Streamlined deployments with **Jenkins CI/CD pipelines** following Test-Driven Development practices  
+---
+
+# **DRDO (Defence Research & Development Organisation) – Software Development Intern**  
+
+During my internship at **DRDO's Centre for Artificial Intelligence and Robotics (CAIR)**, I was responsible for developing a **Secure Data-Sharing Platform** for internal use. This platform aimed to facilitate **secure communication and data sharing** between research teams while adhering to strict security protocols. The focus was on building a web-based system with **role-based access control, end-to-end encryption, and comprehensive logging and monitoring.**
+
+---
+
+## **1. Objective: Secure Data-Sharing Platform**  
+### **What Was the Problem?**  
+In research institutions like DRDO, teams often need to share **confidential and sensitive information**. Previously, this was done manually or via email, which posed several risks:  
+- **Unauthorized access** to sensitive data.  
+- **Lack of a centralized system** for managing file access and permissions.  
+- **No tracking or logging**, making it difficult to monitor data usage.  
+
+**Our Goal:**  
+To build a **centralized and highly secure web platform** that allows multiple roles (e.g., Admin, Researcher, Analyst) to **upload, share, and access files** securely, ensuring only authorized users could interact with the data.
+
+---
+
+## **2. Backend Development (Python Flask)**  
+### **Why Python Flask?**  
+We chose **Flask** for backend development because:  
+- **Lightweight and Flexible:** Flask is highly customizable and well-suited for building APIs.  
+- **Built-in Support for RESTful APIs:** It allowed us to quickly design and expose APIs for user authentication, file management, and access control.  
+- **Integration with Security Libraries:** Flask seamlessly integrates with libraries for encryption, token-based authentication, and security protocols.
+
+---
+
+### **How the Backend Was Implemented:**  
+1. **RESTful APIs:** Developed APIs for authentication, file upload/download, role management, and audit logging.  
+2. **JWT (JSON Web Tokens):** Used for secure session management and token-based authentication.  
+   - **Why JWT?** It provides a stateless authentication mechanism, reducing the need for server-side session storage and enhancing security.  
+3. **Role-Based Access Control (RBAC):**  
+   - Implemented **RBAC** to restrict access to sensitive resources based on user roles (Admin, Researcher, Analyst).  
+   - Admins could manage roles and permissions, while researchers could only access data specific to their projects.  
+
+---
+
+## **3. Database Management (PostgreSQL)**  
+### **Why PostgreSQL?**  
+We selected **PostgreSQL** for its:  
+- **ACID Compliance:** Ensures transactional integrity, which is crucial for handling sensitive data.  
+- **Role-based security:** PostgreSQL supports granular access control at the table, column, and row level.  
+- **JSON Support:** Simplified storage of metadata related to file uploads and user activities.
+
+---
+
+### **Database Structure:**  
+- **Users Table:** Stores user information, roles, and permissions.  
+- **Files Table:** Tracks uploaded files, associated metadata (uploader, timestamp), and encrypted file paths.  
+- **Access Logs Table:** Maintains detailed logs of user activities for auditing purposes.
+
+### **Data Encryption:**  
+- **AES (Advanced Encryption Standard) for File Encryption:** Ensured that all uploaded files were encrypted before being stored in the database.  
+- **Why AES?** AES is a widely adopted and secure encryption standard that provides high performance and robust security.  
+
+---
+
+## **4. Security Enhancements**  
+Security was the top priority for this project. Several measures were implemented to protect data from unauthorized access and cyberattacks.
+
+### **1. SSL/TLS for Secure Communication:**  
+**Why SSL/TLS?**  
+- Ensures all communication between the client and server is encrypted.  
+- Prevents man-in-the-middle (MITM) attacks.  
+- Protects sensitive data (passwords, tokens) during transmission.
+
+### **2. Input Validation and Sanitization:**  
+Prevented common vulnerabilities like **SQL injection**, **cross-site scripting (XSS)**, and **cross-site request forgery (CSRF)** by sanitizing user inputs and using prepared statements for database queries.
+
+### **3. Multi-Factor Authentication (MFA):**  
+**Why MFA?**  
+- Added an extra layer of security for accessing the platform.  
+- Combined **password-based authentication with one-time passcodes (OTP)** to ensure only verified users could access sensitive data.
+
+---
+
+## **5. Frontend Development (ReactJS)**  
+### **Why ReactJS?**  
+We chose **ReactJS** for its modern UI capabilities, making it easier to build a dynamic and responsive user interface:  
+- **Component-based architecture** simplified the development and maintenance of the application.  
+- **Bootstrap integration** helped create a clean and mobile-friendly interface.  
+- **Real-time UI updates** for file uploads, role management, and activity monitoring provided a smooth user experience.
+
+---
+
+### **Frontend Features:**  
+1. **User Dashboard:** Displays uploaded files, user activity logs, and role-based permissions.  
+2. **File Upload/Download:** Supports secure file upload and download, with real-time progress indicators.  
+3. **Audit Logs View:** Allows admins to monitor all user activities in a timeline view for better control and security.
+
+---
+
+## **6. Continuous Integration and Deployment (CI/CD)**  
+### **Why CI/CD Was Necessary?**  
+Automating the build, test, and deployment processes ensured consistent and reliable deployments, reducing manual errors.  
+
+### **Tools Used:**  
+- **Jenkins for CI/CD Pipelines:** Automated testing and deployment to staging and production environments.  
+- **Docker for Containerization:** Ensured consistency across development, testing, and production environments.  
+- **SonarQube for Code Quality Analysis:** Integrated into the pipeline to check for vulnerabilities and maintain high code standards.  
+
+### **Pipeline Steps:**  
+1. **Build and Unit Tests:** Automatically triggered on every code commit.  
+2. **Security Scans:** Detect potential vulnerabilities before deployment.  
+3. **Automated Deployment:** Ensured smooth and consistent releases.
+
+---
+
+## **7. Monitoring and Logging**  
+Monitoring was crucial to ensure the stability and security of the platform.  
+
+### **Tools Used:**  
+- **Prometheus and Grafana:** For real-time monitoring of server health, API performance, and database usage.  
+- **Audit Logs:** Recorded every user action (file upload, download, permission changes), helping with compliance and forensic analysis.  
+- Improved accountability with detailed audit trails.
+
+---
+
+## **Project Outcomes and Results**  
+1. **High-Security Standards:** Achieved **100% compliance with DRDO’s security protocols** by implementing encryption, access control, and monitoring.  
+2. **Improved Data Sharing:** The platform enabled secure and efficient file sharing among research teams, reducing manual processes and errors.  
+3. **Scalable and Robust Architecture:** Designed for scalability, ensuring future expansion and integration with other DRDO systems.  
+
+---
+
+## **Why This Architecture Worked Best:**  
+- **Scalable and Secure:** PostgreSQL and Flask provided a strong foundation for managing sensitive data.  
+- **High Performance:** ReactJS ensured a responsive UI, while Docker and Jenkins improved deployment speed and reliability.  
+- **Multi-Layered Security:** The combination of encryption, OAuth2 authentication, and MFA ensured comprehensive protection against cyber threats.
+
+---
+
+### **Future Enhancements:**  
+1. **Integration with Cloud Storage Solutions:** To improve file availability and redundancy.  
+2. **AI-based Anomaly Detection:** Automatically flag unusual user activities for security analysis.  
+3. **Support for More File Formats and Large Data Sets.**
