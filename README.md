@@ -758,9 +758,7 @@ Monitoring was crucial to ensure the stability and security of the platform.
 2. **AI-based Anomaly Detection:** Automatically flag unusual user activities for security analysis.  
 3. **Support for More File Formats and Large Data Sets.**
 ----
-##**INTRO**
-
-# **Introduction – Niharika Sathyanarayana**
+## 8. Intro
 
 Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. My experience has been centered around **building secure, scalable data applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
 
