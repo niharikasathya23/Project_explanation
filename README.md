@@ -19,16 +19,20 @@ Welcome to my project portfolio! This README provides a list of my key projects 
 
 ## 1. Lightweight Dense Spatial Perception for Low-SWaP Robots
 **Project Overview:**  
+
 **Situation:**
  "As part of my role as a Research Assistant at the HIRO Lab, University of Colorado Boulder, I was working on improving the spatial perception capabilities of low-SWaP robots—those that operate under strict constraints in size, weight, and power. Typically, achieving high-quality 3D perception for these robots is a challenge because most neural networks are too computationally intensive to run in real-time on embedded systems. Imagine trying to use a powerful desktop-class neural network on a tiny device running on battery—it just isn’t feasible."
+ 
 **Task:**
  "My task was to develop a lightweight neural network that could provide dense spatial perception in real-time on embedded devices. Specifically, this involved creating a model that could perform image segmentation (labeling pixels as background, human, or object) while simultaneously refining sensor-generated depth data to produce a more accurate 3D map of the scene. This is particularly useful in scenarios like human-robot handovers, where the robot needs a precise understanding of where the person and object are in 3D space to avoid errors."
+ 
 **Action:**
  "To tackle this, I developed Bilateral Segmentation and Disparity Refinement (BSDR)—a unique neural network that performs two tasks simultaneously: segmentation and depth refinement. Here’s how it works:
 It takes a monocular image and a raw disparity map as input. The model’s architecture is inspired by BiSeNetv1, but I added a second head to refine depth data alongside segmentation.
 We optimized the architecture by reducing the number of parameters and using a multi-layer perceptron (MLP) for sub-pixel disparity prediction. This reduces computational overhead while preserving accuracy.
 I also curated a custom dataset for training using CREStereo, a highly accurate but computationally heavy depth estimation model. This gave us precise ground truth depth data, which helped train BSDR to improve on noisy sensor data."
 "For example, the OAK camera’s standard depth map had holes and noise, especially around occluded regions like a person’s hand holding an object. BSDR not only smoothed the noisy data but also filled in missing depth information, making the 3D reconstruction much more reliable. I ran BSDR on a Luxonis OAK camera at 11 FPS, outperforming similar models that couldn’t achieve real-time performance."
+
 **Result:**
  "The results were exciting! BSDR produced real-time dense 3D scene reconstructions on embedded hardware while using only 7.4 GFlops and 1.9 million parameters, compared to CREStereo’s 47.3 GFlops and 15.2 million parameters. This reduced the computational load by over 80% while improving accuracy in critical tasks like detecting and segmenting objects in close-proximity human-robot interaction.
 In practical terms, this allowed robots to recognize a person and the object they’re holding much more accurately. For human-robot handovers, this means fewer errors and smoother interactions. It also opens up possibilities for low-power robotics, like drones and mobile manipulators, to operate in more complex environments without needing high-power computing hardware."
