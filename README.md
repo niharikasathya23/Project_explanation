@@ -769,3 +769,57 @@ During my internship at **Rakuten**, I was part of a team responsible for **enha
 Additionally, my work at **Defence Research & Development Organisation (CAIR)** focused on **developing secure data-sharing platforms**, implementing **OAuth2, SSL/TLS encryption, and JWT authentication**, strengthening my expertise in **data security and compliance**, which is critical in the healthcare industry.
 
 In my next role, I am looking for an opportunity where I can work on **secure, large-scale data processing and automation** while contributing to a **mission-driven organization**. **MedWatchers' focus on leveraging technology to optimize medication therapy services** aligns with my passion for **data engineering, analytics, and automation in healthcare**. I look forward to discussing how my experience can contribute to your team.
+
+
+```python
+import pandas as pd
+df=pd.read_csv("Medicare_Physician_Other_Practitioners_by_Geography_and_Service_2022.csv")
+pd.set_option('display.max_columns', None)  # Show all columns
+pd.set_option('display.width', 100)        # Set display width to 1000 characters
+pd.set_option('display.max_colwidth', 100)  # Increase max width of column content
+
+print(df.head(5))
+
+df.info()
+df.describe().transpose()
+print("\nDuplicate Rows:", df.duplicated().sum())  
+df.drop_duplicates(inplace=True)
+print(df.isnull().sum())
+
+# Handling Missing Values
+df_removed = df.dropna()  #drop null 
+
+for col in df.columns:
+    if df[col].isnull().sum() > 0:  # Check if column has missing values
+        if df[col].dtype == "object":  # If categorical
+            df[col].fillna(df[col].mode()[0], inplace=True)
+        else:  # If numerical
+            df[col].fillna(df[col].median(), inplace=True)
+df['Gender'].fillna(method='ffill', inplace=True)
+df['Gender'].fillna('Unknown', inplace=True)
+
+
+# Convert date columns to datetime if applicable
+for col in df.columns:
+    if "date" in col.lower():  # If column name contains "date"
+        df[col] = pd.to_datetime(df[col], errors='coerce')
+#convert datatype
+for col in df.select_dtypes(include=['object']).columns:
+    df[col] = df[col].astype(str)
+
+# Outlier Removal using IQR Method
+numeric_cols = df.select_dtypes(include=[np.number]).columns
+for col in numeric_cols:
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+
+plt.figure(figsize=(12, 6))
+sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
+plt.title("Feature Correlation Heatmap")
+plt.show()
+
+
