@@ -620,11 +620,6 @@ A mobile app for managing attendance using **Android Studio and Java**. The app 
 ---
 
 ## 7. Defence Research & Development Organisation (CAIR) - Software Development Intern
-Thank you for the clarification! Here's a **fully expanded and detailed explanation** of your work at **DRDO (Defence Research & Development Organisation)**, explaining **what was done, why it was done, how it was implemented, and the reasoning behind every technology and choice**, ensuring it covers all possible follow-up questions.
-
----
-
-# **DRDO (Defence Research & Development Organisation) – Software Development Intern**  
 
 During my internship at **DRDO's Centre for Artificial Intelligence and Robotics (CAIR)**, I was responsible for developing a **Secure Data-Sharing Platform** for internal use. This platform aimed to facilitate **secure communication and data sharing** between research teams while adhering to strict security protocols. The focus was on building a web-based system with **role-based access control, end-to-end encryption, and comprehensive logging and monitoring.**
 
