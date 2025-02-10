@@ -14,6 +14,7 @@ Welcome to my project portfolio! This README provides a list of my key projects 
 5. [Tequed Attendance Management App](#5-tequed-attendance-management-app)
 6. [Rakuten - Software Engineer Intern](#6-rakuten---software-engineer-intern)
 7. [Defence Research & Development Organisation (CAIR) - Software Development Intern](#7-defence-research--development-organisation-cair---software-development-intern)
+8. [Intro](#8-intro)
 
 ---
 
@@ -476,6 +477,7 @@ ___
 ---
 
 ### **Result:**  
+
 "The ensemble model achieved **90.7% accuracy**, outperforming other combinations and single classifiers. It effectively classified **English and Hinglish content** and provided a practical, easy-to-use solution for detecting hate speech in real time. The **web application** made the tool accessible for real-world use, improving online content moderation and safety."
 ---
 
@@ -755,3 +757,17 @@ Monitoring was crucial to ensure the stability and security of the platform.
 1. **Integration with Cloud Storage Solutions:** To improve file availability and redundancy.  
 2. **AI-based Anomaly Detection:** Automatically flag unusual user activities for security analysis.  
 3. **Support for More File Formats and Large Data Sets.**
+----
+##**INTRO**
+
+# **Introduction – Niharika Sathyanarayana**
+
+Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. My experience has been centered around **building secure, scalable data applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
+
+I also completed my **independent study** and worked as a **Research Assistant at the HIRO LAB** in CU, where I worked on developing a lightweight neural network for real-time spatial perception called **Bilateral Segmentation and Disparity Refinement (BSDR)**. I handled **data curation, 3D annotation, and performance optimization** for efficient **object and occlusion recognition**. This involved handling large datasets efficiently, an experience that translates well to working with **structured and unstructured healthcare data**.
+
+During my internship at **Rakuten**, I was part of a team responsible for **enhancing a B2B order management platform**, where I worked on **database management, API integration, and CI/CD automation**, leading to a **20% increase in deployment speed** and **25% improvement in development cycles**—key aspects when managing **high-volume data pipelines**.
+
+Additionally, my work at **Defence Research & Development Organisation (CAIR)** focused on **developing secure data-sharing platforms**, implementing **OAuth2, SSL/TLS encryption, and JWT authentication**, strengthening my expertise in **data security and compliance**, which is critical in the healthcare industry.
+
+In my next role, I am looking for an opportunity where I can work on **secure, large-scale data processing and automation** while contributing to a **mission-driven organization**. **MedWatchers' focus on leveraging technology to optimize medication therapy services** aligns with my passion for **data engineering, analytics, and automation in healthcare**. I look forward to discussing how my experience can contribute to your team.
