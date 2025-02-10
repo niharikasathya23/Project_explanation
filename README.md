@@ -760,7 +760,7 @@ Monitoring was crucial to ensure the stability and security of the platform.
 ----
 ## 8. Intro
 
-Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. My experience has been centered around **building secure, scalable data applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
+Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. During  my time here I was keen on building scalable data applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
 
 I also completed my **independent study** and worked as a **Research Assistant at the HIRO LAB** in CU, where I worked on developing a lightweight neural network for real-time spatial perception called **Bilateral Segmentation and Disparity Refinement (BSDR)**. I handled **data curation, 3D annotation, and performance optimization** for efficient **object and occlusion recognition**. This involved handling large datasets efficiently, an experience that translates well to working with **structured and unstructured healthcare data**.
 
@@ -774,6 +774,8 @@ In my next role, I am looking for an opportunity where I can work on **secure, l
 ```python
 
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 df=pd.read_csv("Medicare_Physician_Other_Practitioners_by_Geography_and_Service_2022.csv")
 pd.set_option('display.max_columns', None)  # Show all columns
 pd.set_option('display.width', 100)        # Set display width to 1000 characters
