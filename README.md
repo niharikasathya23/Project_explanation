@@ -770,59 +770,15 @@ Additionally, my work at **Defence Research & Development Organisation (CAIR)** 
 
 In my next role, I am looking for an opportunity where I can work on **secure, large-scale data processing and automation** while contributing to a **mission-driven organization**. **MedWatchers' focus on leveraging technology to optimize medication therapy services** aligns with my passion for **data engineering, analytics, and automation in healthcare**. I look forward to discussing how my experience can contribute to your team.
 
+Hello, my name is Niharika Sathyanarayana, and I recently graduated with a Master’s in Computer Science at the University of Colorado Boulder, in December 2024. During my time there, I focused on large-scale systems, cloud architecture, and cybersecurity. I’ve been passionate about building secure, scalable infrastructure, automating workflows, and optimizing performance — all of which are key aspects I’m excited to further develop in my next role.
 
-```python
+At Virufy, I’ve been automating and managing cloud infrastructure for machine learning pipelines on AWS using Terraform, Docker, and CI/CD. I focused on creating reproducible, secure environments, streamlining deployments, and supporting high-throughput ML workloads — key to building reliable cloud-native systems.
 
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-df=pd.read_csv("Medicare_Physician_Other_Practitioners_by_Geography_and_Service_2022.csv")
-pd.set_option('display.max_columns', None)  # Show all columns
-pd.set_option('display.width', 100)        # Set display width to 1000 characters
-pd.set_option('display.max_colwidth', 100)  # Increase max width of column content
+I also completed an independent study and worked as a Research Assistant at the HIRO LAB at CU, where I developed a lightweight neural network for real-time spatial perception, called Bilateral Segmentation and Disparity Refinement (BSDR). This involved managing large-scale 3D data, handling annotation and curation, and optimizing compute performance — experience that translates well to working with high-volume, complex data systems like those needed in AI and robotics.
 
-print(df.head(5))
+Earlier, during my internship at Rakuten, I worked on enhancing a B2B order management platform where I contributed to database management, API integration, and CI/CD automation, improving deployment speed by 20% and development cycles by 25%. My time at DRDO further strengthened my background in building secure systems, where I implemented OAuth2, SSL/TLS, and containerized deployments.
 
-df.info()
-df.describe().transpose()
-print("\nDuplicate Rows:", df.duplicated().sum())  
-df.drop_duplicates(inplace=True)
-print(df.isnull().sum())
+In my next role, I’m eager to work on greenfield cloud infrastructure projects that support AI and robotics at scale. Trossen Robotics’ focus on designing cross-cloud systems and high-throughput pipelines aligns perfectly with my passion for creating secure, scalable, and cost-efficient solutions. I’m excited to explore how my experience can contribute to your mission.
 
-# Handling Missing Values
-df_removed = df.dropna()  #drop null 
-
-for col in df.columns:
-    if df[col].isnull().sum() > 0:  # Check if column has missing values
-        if df[col].dtype == "object":  # If categorical
-            df[col].fillna(df[col].mode()[0], inplace=True)
-        else:  # If numerical
-            df[col].fillna(df[col].median(), inplace=True)
-df['Gender'].fillna(method='ffill', inplace=True)
-df['Gender'].fillna('Unknown', inplace=True)
-
-
-# Convert date columns to datetime if applicable
-for col in df.columns:
-    if "date" in col.lower():  # If column name contains "date"
-        df[col] = pd.to_datetime(df[col], errors='coerce')
-#convert datatype
-for col in df.select_dtypes(include=['object']).columns:
-    df[col] = df[col].astype(str)
-
-# Outlier Removal using IQR Method
-numeric_cols = df.select_dtypes(include=[np.number]).columns
-for col in numeric_cols:
-    Q1 = df[col].quantile(0.25)
-    Q3 = df[col].quantile(0.75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-    df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
-
-plt.figure(figsize=(12, 6))
-sns.heatmap(df.corr(), annot=True, cmap="coolwarm", fmt=".2f")
-plt.title("Feature Correlation Heatmap")
-plt.show()
 
 
