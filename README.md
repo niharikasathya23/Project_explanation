@@ -14,7 +14,8 @@ Welcome to my project portfolio! This README provides a list of my key projects 
 5. [Tequed Attendance Management App](#5-tequed-attendance-management-app)
 6. [Rakuten - Software Engineer Intern](#6-rakuten---software-engineer-intern)
 7. [Defence Research & Development Organisation (CAIR) - Software Development Intern](#7-defence-research--development-organisation-cair---software-development-intern)
-8. [Intro](#8-intro)
+8. [Virufy](#8-virufy)
+9. [Intro](#9-intro)
 
 ---
 
@@ -758,7 +759,97 @@ Monitoring was crucial to ensure the stability and security of the platform.
 2. **AI-based Anomaly Detection:** Automatically flag unusual user activities for security analysis.  
 3. **Support for More File Formats and Large Data Sets.**
 ----
-## 8. Intro
+## 8. Virufy
+
+So at Virufy, I worked on designing and automating the cloud infrastructure that powered our machine learning pipelines. Basically, we were building models to detect respiratory diseases from cough audio, and I was focused on making sure the systems were secure, scalable, and cost-efficient. Since we were dealing with GPU-heavy training jobs and sensitive healthcare data, compliance and cost control were big priorities.
+
+I used Terraform to manage our AWS setup — things like encrypted S3 buckets for data, EC2 GPU instances that we spun up only when training jobs ran, and IAM roles that followed least-privilege principles so everything stayed locked down. This helped us keep things consistent across staging and production without a lot of manual work.
+
+I also containerized our training and inference apps using Docker. That really helped avoid environment issues and made deployments smoother. And I set up CI/CD pipelines with GitHub Actions and Jenkins to automate both the infrastructure and app deployments. We had safe rollback options in place too, so updates were quick and low risk.
+
+Since we were a small team, I also wrote Python and Bash scripts to handle cleanup of unused resources, rotate keys, and restart services if something failed. For monitoring, I set up CloudWatch along with some custom scripts to track GPU usage, API health, and model performance, with Slack alerts so we could jump on problems fast.
+
+Overall, we ended up cutting setup time in half, saving on cloud costs, and making deployments way more reliable. It was a great learning experience in building secure, scalable cloud systems — exactly the kind of thing I’m excited to work on at Trossen.
+
+1️⃣ Terraform for AWS Infrastructure
+Why Terraform?
+Terraform allowed us to manage infrastructure as code — meaning everything was version-controlled, reviewable, and reproducible. It made it easy to spin up environments consistently and quickly, without manual configuration drift.
+
+How did you handle security with IAM?
+I created granular IAM policies for each service. For example, training instances could only access specific S3 paths for datasets and write model artifacts to designated buckets. I also separated IAM roles for staging vs production to limit blast radius.
+
+How did you control EC2 costs?
+We didn’t run GPU instances persistently. I automated the spin-up and teardown of EC2 GPU instances tied to training jobs, so compute ran only when needed. This minimized idle costs.
+
+ Terraform plans/applies ran on infra PRs, with approval gates for prod
+Whenever we made changes to our infrastructure code (for example, adding a new S3 bucket or changing EC2 settings), we opened a pull request (PR) in GitHub.
+
+Our CI/CD pipeline automatically ran terraform plan on that PR to show what changes would happen (kind of like a dry run).
+
+Before any terraform apply (which actually makes the changes), we had an approval step — especially for production — so nothing could accidentally go live without a review.
+👉 In short: It ensured safe, reviewed infrastructure updates.
+
+2️⃣ Docker for Containerization
+Why containerize training?
+It ensured our training and inference environments were consistent — locally, in staging, and in production. This helped eliminate “works on my machine” issues, and allowed us to reproduce experiments exactly.Inference containers served models via FastAPI with consistent API contracts.
+
+How did you optimize Docker builds?
+I used multi-stage builds to separate build-time dependencies (e.g., compilers) from runtime images. This reduced image size, improved security, and sped up deployment.
+
+Docker image builds and pushes to AWS ECR tied to git commit SHAs for traceability
+Every time we built a Docker image (for training or inference apps), the pipeline tagged that image with the Git commit SHA (a unique code that identifies the exact version of the codebase it came from).
+These images were pushed to AWS Elastic Container Registry (ECR).
+By using commit SHAs as tags, we could always trace an image back to the exact version of the code it was built from.
+👉 In short: We knew exactly what code was running in any given container — super useful for debugging and compliance.
+
+3️⃣ CI/CD Pipelines (GitHub Actions + Jenkins)
+How did you ensure safe deployments?
+Infrastructure changes went through approval gates in CI, especially for production. Application deployments ran automated tests post-deploy, and we had automated rollback steps to revert to prior image or infra states on failure.
+
+Automatic deploys updated EC2 configs or inference APIs with new models
+Once a Docker image was built and pushed, the pipeline automatically deployed it:
+
+Updated EC2 configuration if needed (e.g., new startup commands or environment variables).
+
+Updated our inference API containers to serve the new model or code.
+👉 In short: We automated getting the latest model or service live, without manual deployment steps.
+
+How did rollbacks work?
+We tagged all Docker images with git SHAs and kept previous successful versions in ECR. Rollback was as simple as re-deploying the prior image. Similarly, Terraform state allowed us to revert infrastructure.
+
+4️⃣ Automation Scripts (Python / Bash)
+Can you give an example of a script?
+Sure — I wrote a Python script that queried unused EC2 volumes and EBS snapshots older than a threshold, then deleted them after confirmation. This kept storage costs under control. Another Bash script rotated API keys and updated dependent services automatically.
+
+How did this reduce manual work?
+These scripts automated routine cleanup, key rotation, and service restarts, which would otherwise consume time and introduce risk if done manually. It also ensured we stayed compliant with best practices.
+
+5️⃣ Monitoring & Observability
+What did you monitor?
+
+GPU/CPU utilization and memory (via CloudWatch)
+
+Disk space to avoid training failures
+
+API latency, error rates, and request counts (via custom Python loggers + CloudWatch)
+
+How did you handle failures?
+I set up CloudWatch alarms that triggered Slack alerts for critical issues. For example, if GPU utilization was stuck at 0% during training, it indicated a hung process — we’d get alerted and automatically terminate and restart the job.
+
+🌟 Impact
+What was the outcome?
+
+Cut environment setup and deployment time by 50%+
+
+Reduced deployment errors through automation
+
+Saved significant compute/storage costs by cleaning up unused resources and automating instance lifecycles
+
+Improved system reliability by catching issues early and automating recovery
+
+
+
+## 9. Intro
 
 Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. During  my time here I was keen on building scalable data applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
 
