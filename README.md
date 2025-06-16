@@ -121,7 +121,7 @@ For instance, before using BSDR, the depth map might miss parts of the hand and 
 
 ---
 
-Let me know if you want to further expand on **model benchmarks, specific datasets, or hardware comparisons**!
+
 ---
 
 ## 2. StockWatch: Real-Time Big Data Pipeline for Stock Sentiment Analysis
