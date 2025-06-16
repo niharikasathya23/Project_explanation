@@ -851,6 +851,17 @@ Improved system reliability by catching issues early and automating recovery
 
 ## 9. Intro
 
+Hello, my name is Niharika Sathyanarayana, and I recently graduated with a Master’s in Computer Science at the University of Colorado Boulder, in December 2024. During my time there, I focused on large-scale systems, cloud architecture, and cybersecurity. I’ve been passionate about building secure, scalable infrastructure, automating workflows, and optimizing performance — all of which are key aspects I’m excited to further develop in my next role.
+
+At Virufy, I designed and automated cloud infrastructure for machine learning pipelines that detect respiratory diseases from cough audio. I used AWS, Terraform, Docker, and CI/CD pipelines to build scalable, secure, cost-efficient systems that supported high-throughput GPU training workloads. This work helped cut deployment time in half, reduce cloud costs, and improve reliability — all critical experience I’m excited to bring to Trossen.
+
+I also completed an independent study and worked as a Research Assistant at the HIRO LAB at CU, where I developed a lightweight neural network for real-time spatial perception, called Bilateral Segmentation and Disparity Refinement (BSDR). This involved managing large-scale 3D data, handling annotation and curation, and optimizing compute performance — experience that translates well to working with high-volume, complex data systems like those needed in AI and robotics.
+
+During my internship at **Rakuten**, I was part of a team responsible for **enhancing a B2B order management platform**, where I worked on **database management, API integration, and CI/CD automation** improving deployment speed. Additionally, my work at **Defence Research & Development Organisation (CAIR)** focused on **developing secure data-sharing platforms**,
+
+In my next role, I’m eager to work on greenfield cloud infrastructure projects that support AI and robotics at scale. Trossen Robotics’ focus on designing cross-cloud systems and high-throughput pipelines aligns perfectly with my passion for creating secure, scalable, and cost-efficient solutions. I’m excited to explore how my experience can contribute to your mission.
+
+
 Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. During  my time here I was keen on building scalable data applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
 
 I also completed my **independent study** and worked as a **Research Assistant at the HIRO LAB** in CU, where I worked on developing a lightweight neural network for real-time spatial perception called **Bilateral Segmentation and Disparity Refinement (BSDR)**. I handled **data curation, 3D annotation, and performance optimization** for efficient **object and occlusion recognition**. This involved handling large datasets efficiently, an experience that translates well to working with **structured and unstructured healthcare data**.
@@ -861,15 +872,6 @@ Additionally, my work at **Defence Research & Development Organisation (CAIR)** 
 
 In my next role, I am looking for an opportunity where I can work on **secure, large-scale data processing and automation** while contributing to a **mission-driven organization**. **MedWatchers' focus on leveraging technology to optimize medication therapy services** aligns with my passion for **data engineering, analytics, and automation in healthcare**. I look forward to discussing how my experience can contribute to your team.
 
-Hello, my name is Niharika Sathyanarayana, and I recently graduated with a Master’s in Computer Science at the University of Colorado Boulder, in December 2024. During my time there, I focused on large-scale systems, cloud architecture, and cybersecurity. I’ve been passionate about building secure, scalable infrastructure, automating workflows, and optimizing performance — all of which are key aspects I’m excited to further develop in my next role.
-
-At Virufy, I’ve been automating and managing cloud infrastructure for machine learning pipelines on AWS using Terraform, Docker, and CI/CD. I focused on creating reproducible, secure environments, streamlining deployments, and supporting high-throughput ML workloads — key to building reliable cloud-native systems.
-
-I also completed an independent study and worked as a Research Assistant at the HIRO LAB at CU, where I developed a lightweight neural network for real-time spatial perception, called Bilateral Segmentation and Disparity Refinement (BSDR). This involved managing large-scale 3D data, handling annotation and curation, and optimizing compute performance — experience that translates well to working with high-volume, complex data systems like those needed in AI and robotics.
-
-Earlier, during my internship at Rakuten, I worked on enhancing a B2B order management platform where I contributed to database management, API integration, and CI/CD automation, improving deployment speed by 20% and development cycles by 25%. My time at DRDO further strengthened my background in building secure systems, where I implemented OAuth2, SSL/TLS, and containerized deployments.
-
-In my next role, I’m eager to work on greenfield cloud infrastructure projects that support AI and robotics at scale. Trossen Robotics’ focus on designing cross-cloud systems and high-throughput pipelines aligns perfectly with my passion for creating secure, scalable, and cost-efficient solutions. I’m excited to explore how my experience can contribute to your mission.
 
 
 
