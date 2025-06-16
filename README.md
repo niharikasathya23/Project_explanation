@@ -781,14 +781,6 @@ I created granular IAM policies for each service. For example, training instance
 How did you control EC2 costs?
 We didn’t run GPU instances persistently. I automated the spin-up and teardown of EC2 GPU instances tied to training jobs, so compute ran only when needed. This minimized idle costs.
 
- Terraform plans/applies ran on infra PRs, with approval gates for prod
-Whenever we made changes to our infrastructure code (for example, adding a new S3 bucket or changing EC2 settings), we opened a pull request (PR) in GitHub.
-
-Our CI/CD pipeline automatically ran terraform plan on that PR to show what changes would happen (kind of like a dry run).
-
-Before any terraform apply (which actually makes the changes), we had an approval step — especially for production — so nothing could accidentally go live without a review.
-👉 In short: It ensured safe, reviewed infrastructure updates.
-
 2️⃣ Docker for Containerization
 Why containerize training?
 It ensured our training and inference environments were consistent — locally, in staging, and in production. This helped eliminate “works on my machine” issues, and allowed us to reproduce experiments exactly.Inference containers served models via FastAPI with consistent API contracts.
@@ -796,13 +788,20 @@ It ensured our training and inference environments were consistent — locally, 
 How did you optimize Docker builds?
 I used multi-stage builds to separate build-time dependencies (e.g., compilers) from runtime images. This reduced image size, improved security, and sped up deployment.
 
-Docker image builds and pushes to AWS ECR tied to git commit SHAs for traceability
-Every time we built a Docker image (for training or inference apps), the pipeline tagged that image with the Git commit SHA (a unique code that identifies the exact version of the codebase it came from).
-These images were pushed to AWS Elastic Container Registry (ECR).
-By using commit SHAs as tags, we could always trace an image back to the exact version of the code it was built from.
-👉 In short: We knew exactly what code was running in any given container — super useful for debugging and compliance.
-
 3️⃣ CI/CD Pipelines (GitHub Actions + Jenkins)
+
+Jenkins handled some of our more complex jobs — like workflows that needed access to our private network or certain legacy steps that hadn’t been migrated yet. Over time, GitHub Actions took over more of the pipeline as we modernized it.
+
+🌟 What the pipelines did
+✅ Infrastructure deployment:
+When we made changes to our Terraform code, GitHub Actions would automatically run terraform plan on the pull request so we could review what would change. For production, we had approval gates — so no one could apply changes without a second set of eyes. When approved, the pipeline ran terraform apply to safely roll out infra updates.
+
+✅ Application deployment:
+GitHub Actions (or sometimes Jenkins) built our Docker images, tagged them with the git commit SHA for traceability, and pushed them to AWS ECR. Once built, the pipeline automatically updated our EC2 configs or inference API containers to use the new image.
+
+✅ Post-deployment validation:
+After deployment, automated checks ran to ensure everything was up and responding as expected. If something failed, our rollback logic kicked in — we could quickly redeploy the last known good Docker image or restore the previous Terraform state.
+
 How did you ensure safe deployments?
 Infrastructure changes went through approval gates in CI, especially for production. Application deployments ran automated tests post-deploy, and we had automated rollback steps to revert to prior image or infra states on failure.
 
@@ -816,10 +815,11 @@ Updated our inference API containers to serve the new model or code.
 
 How did rollbacks work?
 We tagged all Docker images with git SHAs and kept previous successful versions in ECR. Rollback was as simple as re-deploying the prior image. Similarly, Terraform state allowed us to revert infrastructure.
+We used GitHub Actions because it integrates directly with GitHub, so it was great for automating code-level tasks — things like running tests on pull requests, building Docker images, tagging them with commit SHAs, and pushing to AWS ECR.
 
 4️⃣ Automation Scripts (Python / Bash)
 Can you give an example of a script?
-Sure — I wrote a Python script that queried unused EC2 volumes and EBS snapshots older than a threshold, then deleted them after confirmation. This kept storage costs under control. Another Bash script rotated API keys and updated dependent services automatically.
+ I wrote a Python script that queried unused EC2 volumes and EBS snapshots older than a threshold, then deleted them after confirmation. This kept storage costs under control. Another Bash script rotated API keys and updated dependent services automatically.
 
 How did this reduce manual work?
 These scripts automated routine cleanup, key rotation, and service restarts, which would otherwise consume time and introduce risk if done manually. It also ensured we stayed compliant with best practices.
