@@ -863,6 +863,7 @@ In my next role, I’m eager to work on greenfield cloud infrastructure projects
 
 
 Hello, my name is **Niharika Sathyanarayana**, and I recently graduated with a **Master’s in Computer Science** at the **University of Colorado Boulder**, in **December 2024**. During  my time here I was keen on building scalable web applications, automating workflows, and optimizing system performance**—all of which are key aspects I aim to further develop in my next role.
+
 At Virufy, I working as a software Engineer building AI-powered health diagnostics platforms. I developed scalable APIs using TypeScript and Next.js, integrated React-based frontends, and automated deployments with GitHub Actions and Netlify, reducing release cycles by 40%. I also secured APIs using OAuth2 and JWT and integrated ML inference pipelines hosted on AWS.
 
 I also completed my **independent study** and worked as a **Research Assistant at the HIRO LAB** in CU, where I worked on developing a lightweight neural network for real-time spatial perception called **Bilateral Segmentation and Disparity Refinement (BSDR)**. I handled **data curation, 3D annotation, and performance optimization** for efficient **object and occlusion recognition**.This project taught me how to balance performance, efficiency, and latency — concepts I now bring into building real-time web apps and streaming AI experiences."
