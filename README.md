@@ -872,6 +872,42 @@ I also completed my **independent study** and worked as a **Research Assistant a
 "At DRDO, I built a secure data-sharing platform using React, PostgreSQL, and REST APIs, implementing SSL/TLS and role-based access. I followed test-driven development and led code management in an Agile environment."
 Together, these experiences have prepared me to deliver fast, secure, and intelligent applications, and I’m excited to contribute to building AI-powered, real-time web apps using technologies like React, Next.js, and OpenAI APIs
 
+Hi, I’m Niharika Sathyanarayana. I recently completed my Master’s in Computer Science from the University of Colorado Boulder in December 2024. My academic focus was on scalable systems, cloud infrastructure, and AI applications, and throughout my experiences, I’ve worked at the intersection of front-end development, real-time backend APIs, and machine learning integrations. I’m passionate about building responsive, secure, and intelligent web platforms — and I’d love to walk you through how my journey has evolved to match this role.
+
+💡 1. Virufy – Full-Stack Software Engineer (Feb 2025 – Present)
+At Virufy, I currently work as a Full-Stack Engineer on AI-powered health diagnostics applications — the core product uses ML models to detect respiratory illnesses from cough audio.
+
+My primary responsibility has been to design and deploy real-time APIs using TypeScript, Next.js, and Java, and connect them to React + TailwindCSS frontends. This enabled seamless user interaction and dynamic data flows across the app. I implemented JWT and OAuth2 protocols in the API layer to protect user data and ensure compliance with health data privacy standards.
+
+One key initiative I led was building out our CI/CD pipelines using GitHub Actions and Netlify, which cut our deployment cycle by 40%, and enabled auto-preview builds across environments. I also containerized backend services using Docker, which improved cross-environment reliability.
+
+What made this role exciting was collaborating with ML engineers — I helped integrate AWS-hosted inference pipelines into our platform and ensure they ran efficiently in production. As a result, we improved system reliability and also saw a 20% increase in session duration by refining our UI and user flows.
+
+This role directly prepared me for environments that involve full-stack development, DevOps, and real-time AI integration — which is exactly what excites me about the position here.
+
+🧠 2. University of Colorado Boulder – Research Assistant, HIRO Lab (Jan 2024 – Dec 2024)
+During my Master’s, I worked as a Research Assistant at the HIRO Lab, where I focused on real-time AI in robotics — specifically on a project to improve spatial perception in low-SWaP (Size, Weight, and Power constrained) robots.
+
+I developed a lightweight deep learning model called Bilateral Segmentation and Disparity Refinement (BSDR) using Python and C++. The goal was to perform segmentation and depth refinement simultaneously to process stereo camera data more efficiently. The model achieved 11 FPS on constrained hardware and significantly improved accuracy in human-robot interaction scenarios.
+
+To support the model, I also helped curate and annotate 3D datasets, working closely with stereo vision tools like CREStereo. This experience taught me a lot about optimizing AI for real-time systems — striking a balance between latency, accuracy, and memory efficiency. And although this was more research-heavy, the principles directly map to real-time AI web applications like the ones you’re building — where efficient inference and user responsiveness are critical.
+
+🌐 3. Rakuten – Software Engineer Intern (Jan 2022 – Jul 2022)
+Before grad school, I interned at Rakuten, where I worked on their B2B order management platform. It was a full-stack role, but my main focus was on enhancing front-end features using AngularJS, HTML/CSS, and TypeScript, and connecting them to backend APIs built in Spring Boot with a MySQL database.
+
+I worked closely with product and QA teams via JIRA, and led initiatives around CI/CD automation which helped reduce feature deployment times by 20% and cut development cycles by 25%. I also resolved 35+ high-priority bugs and helped redesign key user flows, resulting in a 30% increase in engagement.
+
+This internship gave me hands-on experience with production-grade systems and helped me mature as an engineer who understands both user experience and backend reliability.
+
+🔐 4. DRDO – Software Development Intern, CAIR (Aug 2021 – Dec 2021)
+At DRDO’s Centre for Artificial Intelligence and Robotics, I worked on a Secure Data-Sharing Platform built for internal research teams. The objective was to enable safe and traceable collaboration across military-grade research projects.
+
+I built RESTful APIs using Python/Flask and PostgreSQL, implemented SSL/TLS encryption, OAuth2 role-based access control, and JWT authentication. On the frontend, I developed responsive interfaces using React and Bootstrap.
+
+We also followed Test-Driven Development practices and used Jenkins for CI/CD, with Git-based version control in an Agile environment. One of the biggest outcomes was reducing the time-to-insight across research teams by 30%, thanks to the improved access and transparency of data.
+
+This role really grounded my understanding of web security, authentication, and compliance — which I still apply when working with APIs that involve sensitive user or AI-generated data.
+
 
 
 
