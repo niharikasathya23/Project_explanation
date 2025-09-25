@@ -847,6 +847,56 @@ Saved significant compute/storage costs by cleaning up unused resources and auto
 
 Improved system reliability by catching issues early and automating recovery
 
+---------
+“At Virufy, the challenge we’re solving is respiratory disease detection from cough audio. The datasets are noisy, diverse, and come from different demographics, so the problem isn’t just training a model — it’s building an end-to-end pipeline that can handle variability, scale in production, and deliver reliable real-time inference.”
+
+Explain ML contributions and why
+“My role started with fine-tuning classification models and LLMs on these cough datasets. The raw recordings had lots of noise, so I built semantic labeling pipelines and preprocessing steps to extract features like MFCCs and spectrograms. This ensured the models learned disease-relevant acoustic patterns instead of overfitting to background noise.
+
+I also set up evaluation workflows that combined automated metrics with human-in-the-loop feedback, because in healthcare, model explainability and trust matter just as much as accuracy. These changes together improved diagnostic accuracy by about 22%, which is significant when small improvements translate to fewer false negatives in clinical use.”
+
+Transition into systems/infrastructure
+“But a good model is only half the story — it needs to run fast enough to be clinically useful. I designed and deployed FastAPI-based inference services in Python and TensorFlow. By optimizing how we served the model — things like batching requests, controlling memory footprint, and tuning TensorFlow graph execution — we reduced latency by about 30%, bringing it closer to real-time performance.
+
+That matters because if a clinician or patient records a cough and has to wait 5 seconds for a result, they won’t trust the system. Cutting that latency to sub-second response times made it usable.”
+
+Deployment and DevOps reasoning
+“To make this robust and repeatable, I containerized the ML pipelines with Docker and deployed them on AWS ECS with S3 storage and Lambda triggers. That gave us two benefits:
+
+Reproducibility — the same Docker image could be tested in staging and pushed to prod without environment drift.
+
+Scalability — with ECS, we could horizontally scale services when incoming requests spiked, instead of having a single bottlenecked node.
+
+I automated all of this with GitHub Actions CI/CD so new models or API updates went through linting, unit/integration tests, and staging deployment automatically. That reduced manual deployment errors and gave the team confidence that changes wouldn’t break production.”
+-----
+Why LLMs and models for Virufy?
+
+“At Virufy, the dataset was primarily cough audio, but audio is messy. It contains background noise, variable microphone quality, and accents or demographics that affect the signal. The key challenge was to extract meaningful features that separate a diseased cough from a healthy one.
+
+Traditional signal-processing methods like MFCCs and spectrograms were a starting point, but we needed models that could capture temporal dependencies and semantic patterns across long recordings. That’s where LLMs and CNN-based classifiers came in.”
+
+CNNs for acoustic patterns
+
+“CNNs were effective for analyzing spectrograms, since they can capture local frequency patterns similar to how they capture spatial patterns in images. By treating the spectrogram as a 2D image, we could detect disease-specific ‘signatures’ in the frequency-time domain.
+
+We used convolutional blocks with batch normalization and dropout to make the network generalize better across different environments. This alone gave us a solid baseline.”
+
+Why LLMs in this context?
+
+“Now, where LLMs came into play was not in directly classifying coughs, but in labeling and augmenting the dataset. We needed consistent, semantically meaningful metadata for each audio sample — things like patient-reported symptoms, environment, or demographic notes.
+
+We used LLMs to parse unstructured patient intake text and convert it into structured labels, which were then attached to the audio samples. That way, when training CNNs or hybrid CNN+LSTM models, we could condition them on richer contextual features, not just raw audio.
+
+We also used LLMs in the evaluation workflow, essentially to summarize clinician feedback and generate reports on model errors, helping us identify systemic biases (like if the model performed worse for a certain demographic).”
+
+Hybrid architectures
+
+“In some experiments, we combined CNNs with LSTMs — the CNN would extract features from short audio windows, and the LSTM would capture temporal evolution across the cough sequence. This was critical because respiratory conditions manifest not just in one isolated sound, but in the rhythm and repetition of the coughs.
+
+That hybrid CNN+LSTM architecture outperformed plain CNNs by giving us a 22% boost in diagnostic accuracy compared to the baseline.”
+
+Fine
+
 
 
 ## 9. Intro
