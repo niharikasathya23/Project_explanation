@@ -689,7 +689,7 @@ We selected **PostgreSQL** for its:
 - **Access Logs Table:** Maintains detailed logs of user activities for auditing purposes.
 
 ### **Data Encryption:**  
-- **AES (Advanced Encryption Standard) for File Encryption:** Ensured that all uploaded files were encrypted before being stored in the database.  
+- **AES (Advanced Encryption Standard) for File Encryption:** Ensured that all uploaded files were encrypted before being stored in the database.  AES (Advanced Encryption Standard) is a symmetric key encryption algorithm, meaning the same key is used for both encrypting and decrypting data.It operates on fixed-size blocks of data (usually 128-bit blocks)
 - **Why AES?** AES is a widely adopted and secure encryption standard that provides high performance and robust security.  
 
 ---
@@ -698,13 +698,14 @@ We selected **PostgreSQL** for its:
 Security was the top priority for this project. Several measures were implemented to protect data from unauthorized access and cyberattacks.
 
 ### **1. SSL/TLS for Secure Communication:**  
+SSL (Secure Sockets Layer) and TLS (Transport Layer Security) are cryptographic protocols that encrypt data between the client (browser/app) and the server (your backend).
 **Why SSL/TLS?**  
 - Ensures all communication between the client and server is encrypted.  
 - Prevents man-in-the-middle (MITM) attacks.  
 - Protects sensitive data (passwords, tokens) during transmission.
 
 ### **2. Input Validation and Sanitization:**  
-Prevented common vulnerabilities like **SQL injection**, **cross-site scripting (XSS)**, and **cross-site request forgery (CSRF)** by sanitizing user inputs and using prepared statements for database queries.
+Prevented common vulnerabilities like **SQL injection**, users entering unexpected or harmful data to exploit your system. **cross-site scripting (XSS)**Attackers inject malicious JavaScript into a web page seen by others., and **cross-site request forgery (CSRF)** Attackers inject malicious JavaScript into a web page seen by others. by sanitizing user inputs and using prepared statements for database queries.
 
 ### **3. Multi-Factor Authentication (MFA):**  
 **Why MFA?**  
