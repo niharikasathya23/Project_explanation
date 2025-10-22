@@ -652,6 +652,7 @@ Achieved 100% compliance with DRDO’s security and access protocols.
 Improved data-sharing efficiency by 30%, reducing manual exchange and risk of data leaks.
 
 Built a scalable, modular architecture ready for cloud integration and AI-driven anomaly detection.
+
 ---
 
 ## **2. Backend Development (Python Flask)**  
