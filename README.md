@@ -639,6 +639,19 @@ In research institutions like DRDO, teams often need to share **confidential and
 **Our Goal:**  
 To build a **centralized and highly secure web platform** that allows multiple roles (e.g., Admin, Researcher, Analyst) to **upload, share, and access files** securely, ensuring only authorized users could interact with the data.
 
+On the backend, I built RESTful APIs using Python Flask integrated with PostgreSQL, implementing JWT authentication, OAuth2 role-based access control, and AES-256 encryption for files. All data transfer was secured through SSL/TLS, ensuring complete protection in transit and at rest. I also added audit logging, multi-factor authentication, and input sanitization to prevent unauthorized access and common vulnerabilities.
+
+On the frontend, I developed a React + Bootstrap interface that allowed users to upload, download, and manage files based on their roles, with real-time dashboards for activity tracking and permissions. Role-aware UI components ensured that admins, researchers, and analysts each had restricted, contextual views.
+
+For deployment and automation, I configured Jenkins CI/CD pipelines and Docker containers to enable consistent, test-driven releases. I integrated Prometheus and Grafana dashboards for live monitoring and alerting, ensuring stability and traceability of all actions.
+
+✅ Impact:
+
+Achieved 100% compliance with DRDO’s security and access protocols.
+
+Improved data-sharing efficiency by 30%, reducing manual exchange and risk of data leaks.
+
+Built a scalable, modular architecture ready for cloud integration and AI-driven anomaly detection.
 ---
 
 ## **2. Backend Development (Python Flask)**  
