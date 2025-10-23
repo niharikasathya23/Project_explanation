@@ -233,35 +233,238 @@ That taught me the importance of testing migrations in staging and automating ro
 
 ## 2. HIRO Lab – Robotics Perception & Big Data Systems
 
-### 🤖 Overview
-At the **Human Interaction & Robotics (HIRO) Lab, CU Boulder**, I developed scalable data pipelines and visualization systems for robotics perception research.
+🧩 **S – Situation**  
+“At the Human Interaction and Robotics Lab at CU Boulder, we were running large-scale robotics perception experiments using stereo cameras and 3D sensors.  
+Each experiment produced millions of unstructured frames — depth maps, disparity data, and telemetry from multiple sources.  
+The problem was that the lab didn’t have an efficient way to process or visualize that data. Researchers were manually opening logs and raw image files to analyze experiments, which was slow and error-prone.  
+We needed a proper backend system that could process, store, and visualize robotics data in real time, so researchers could validate models and debug faster.”
 
-### 🧩 Key Contributions
-- Built a **distributed data ingestion and processing pipeline** using **Kafka + Spark Streaming**.  
-- Processed and visualized **1M+ sensor frames** (stereo, LiDAR, telemetry) in near real-time.  
-- Developed a **web-based visualization portal** (Flask + WebSockets) for experiment replay and annotation.  
-- Integrated robust data storage and query layers for cross-experiment analysis.  
-- Reduced experiment processing time by **40%**, enabling faster perception model validation.
+---
 
-### ⚙️ Tech Stack
-`Python` · `Flask` · `Apache Kafka` · `Apache Spark` · `AWS EC2` · `WebSockets` · `OpenCV` · `ROS`
+🎯 **T – Task**  
+“My role was to design and build two core components:  
+First, a web-based visualization platform that allowed researchers to view, replay, and analyze perception data directly from the browser.  
+And second, an optimized distributed data pipeline using Apache Spark and Kafka on AWS that could handle both real-time streaming and batch workloads at scale.  
+The key requirements were scalability, low latency, and data consistency between multiple sensors and experiments.”
 
+---
+
+⚙️ **A – Action**
+
+### 🧠 1. Web Application for Visualization  
+“I started by developing internal web applications using React for the frontend and Flask with Python for the backend.  
+The Flask API served experiment data — things like camera frames, disparity maps, and telemetry — which the React dashboard rendered dynamically in 3D.  
+I built reusable React components that supported real-time polling, filtering, and playback of experiment data.  
+I also implemented custom visualization hooks to overlay predicted and ground-truth disparity maps side-by-side, which helped researchers immediately see where their models failed.  
+To make everything interoperable, I designed consistent data contracts between the frontend, the ETL pipeline, and our PostgreSQL database.  
+This way, the visualization tool could fetch results directly from the distributed backend without manual intervention.”
+
+---
+
+### ⚙️ 2. Distributed Data Pipeline Optimization  
+“Next, I reworked our data ingestion and transformation pipeline using Apache Kafka and Spark.  
+Kafka handled real-time streaming of stereo camera and sensor data — for example, publishing messages to topics like `camera_frames` or `telemetry_data`.  
+Spark Structured Streaming consumed those topics and performed parallel aggregation, deduplication, and transformations on AWS EC2 clusters.  
+I tuned Spark’s partitioning, shuffle parameters, and executor configurations to improve performance under load.  
+We stored the processed outputs in AWS S3 for binary data and PostgreSQL for structured experiment metadata.  
+To guarantee reliability, I implemented checkpointing and exactly-once semantics, so even during job restarts, no frames were lost or duplicated.  
+For observability, I set up CloudWatch and Prometheus exporters to track pipeline throughput, latency, and error rates in real time.”
+
+---
+
+🚀 **R – Result**  
+“As a result, the optimized data pipeline achieved about a 35 percent improvement in throughput, sustaining stable ingestion and processing of over one million unstructured frames per experiment.  
+The web-based visualization tool improved analysis and debugging speed by around 25 percent, since researchers could now visualize and replay experiments instantly instead of dealing with raw logs.  
+Overall, the system became our lab’s primary backend for robotics perception research — supporting multiple researchers at once and reducing experiment turnaround time from several hours to just minutes.”
+
+---
+
+## ⚙️ 1️⃣ What is Apache Kafka (in simple and technical terms)
+
+**Simple:**  
+Kafka is a real-time data streaming platform.  
+It lets different parts of a system send and receive data reliably — like a high-speed message queue.
+
+**Technical:**  
+It’s a distributed log-based message broker that:
+- Stores streams of records in topics, divided into partitions.  
+- Allows producers to publish messages and consumers to read them in order.  
+- Guarantees durability, ordering, and scalability through partitioning and replication.
+
+---
+
+✅ **How I Used Kafka**  
+“At the HIRO Lab, our robots produced continuous streams of stereo camera frames and sensor readings.  
+We needed to process that data in real time, but direct ingestion would overwhelm our backend.  
+So, I introduced Kafka as the data backbone — a middle layer that decoupled data producers (sensors) from consumers (Spark jobs and visualization APIs).  
+Each sensor published data to a topic like `camera_frames` or `telemetry_data`.  
+Kafka stored those messages durably and allowed multiple consumers — like Spark Streaming and logging tools — to process them independently.”
+
+---
+
+✅ **Why I Used Kafka**
+- **Decoupling:** The robots (producers) and data processors (consumers) could work independently — if Spark was slow, data wouldn’t be lost.  
+- **Scalability:** Kafka partitions allowed us to process multiple experiments in parallel.  
+- **Fault Tolerance:** Kafka replicated data across brokers, so even if one node failed, messages persisted.  
+- **Replayability:** We could replay streams to re-run failed jobs or debug experiments.
+
+**In short:**  
+“Kafka gave me a reliable, scalable way to move high-volume robotics data through the system in real time.”
+
+---
+
+## ⚡ 2️⃣ What is Apache Spark
+
+**Simple:**  
+Spark is a distributed computing framework that processes large datasets in parallel.  
+It’s like a turbocharged Python loop that runs across many machines at once.
+
+**Technical:**  
+It uses **Resilient Distributed Datasets (RDDs)** and **DAG execution** to efficiently perform:
+- Batch and stream processing  
+- SQL queries  
+- Machine learning, graph analytics, etc.  
+It runs computations **in memory** (vs Hadoop’s on-disk MapReduce), so it’s much faster for iterative workloads.
+
+---
+
+✅ **How I Used Spark**  
+“I used Apache Spark Structured Streaming to consume data directly from Kafka topics.  
+Each incoming message represented a frame or sensor record.  
+Spark read those in micro-batches, cleaned and aggregated them — for example, grouping frames by experiment ID, deduplicating out-of-order messages, and generating summaries like average disparity per second.  
+Processed outputs were then written back to AWS S3 in Parquet format and indexed in PostgreSQL, so the visualization dashboard could retrieve them via Flask APIs.”
+
+---
+
+✅ **Why I Used Spark**
+- **Parallel Processing:** We had to process over a million frames — Spark distributed the work across multiple EC2 nodes.  
+- **Fault Tolerance:** Spark checkpoints and recomputes lost partitions automatically.  
+- **Scalability:** I could scale up executors as data grew without changing any code.  
+- **Integration with Kafka:** Spark Structured Streaming reads directly from Kafka, which made the architecture clean and event-driven.
+
+**In short:**  
+“Spark transformed Kafka’s raw data streams into structured, cleaned, and aggregated outputs — ready for visualization and analysis.”
 ---
 
 ## 3. Rakuten – Software Engineer Intern
 
-### 🛒 Overview
-At **Rakuten**, I optimized and refactored backend modules for the company’s **B2B Order Management Portal**, improving scalability and query efficiency.
 
-### 🧩 Key Contributions
-- Implemented **server-side pagination and dynamic filtering** using **Spring Boot + JPA**.  
-- Optimized query performance with **indexing** and **entity graph fetch strategies**.  
-- Created a **change-tracking microservice** that stored CRUD history for business users.  
-- Integrated with a React frontend for interactive order audit timelines.  
-- Reduced average API response time by **60%**.
+“At Rakuten, I worked on the B2B order management portal that helped partner businesses place and track bulk orders.  
+I built features like a **‘Save as Draft’** and **‘Order Template’** for faster repeat ordering, and added advanced filters and sorting to make order tracking smoother.  
+I also fixed data sync delays, missing product details, and several UI bugs in AngularJS.  
+Alongside that, I standardized API responses, added field validations, and helped integrate CI/CD pipelines, which improved deployment speed by about **20%** and reduced post-release defects by **20%**.”
 
-### ⚙️ Tech Stack
-`Java` · `Spring Boot` · `JPA` · `PostgreSQL` · `React` · `Bootstrap`
+---
+
+### 🧩 1. “Save as Draft” Feature
+**Problem:**  
+Merchants placing large orders had to complete them in one go — if they navigated away, data was lost.  
+
+**Solution:**  
+- Introduced a new **DRAFT** state in the order lifecycle to store partially completed orders.  
+- Designed a backend REST endpoint `POST /orders/saveDraft` using **Spring Boot**, which persisted incomplete orders in **MySQL** with a status ENUM (`DRAFT`, `SUBMITTED`, `APPROVED`, `CANCELLED`).  
+- Added service-layer validation to ensure only draft orders could be edited or submitted.  
+- On the frontend (**AngularJS**), implemented local form caching and triggered the API via **Axios** when users clicked “Save Draft”.  
+- Displayed a real-time toast confirmation and updated the UI to reflect the draft status.
+
+---
+
+### 🧱 2. “Order Template” Feature
+**Problem:**  
+Many clients placed recurring bulk orders (same supplier, SKU, quantity) every week — they had to re-enter data each time.  
+
+**Solution:**  
+- Created a reusable “template” model linked to the orders table.  
+- Added backend endpoint `POST /orders/{id}/clone` that duplicated order metadata and items but reset status to **DRAFT**.  
+- Reused the existing order creation service to ensure business rules stayed consistent.  
+- Added frontend support in AngularJS for “Save as Template” and “Use Template” actions.  
+- **Tech Detail:** Used Spring’s `BeanUtils.copyProperties()` for deep copy, with selective field reset logic (timestamp, status, audit fields).  
+
+**Impact:**  
+Saved merchants several minutes per large order and reduced backend input validation errors.
+
+---
+
+### ⚙️ 3. Advanced Order Filtering and Sorting
+**Problem:**  
+Filtering orders by supplier, category, or date range caused slow queries and sometimes timeouts.  
+
+**Solution:**  
+- Re-engineered the filtering mechanism in **Spring Boot (Spring Data JPA)** to perform all filtering and pagination on the server side, reducing frontend load and network payload.  
+- Designed a **FilterCriteria DTO** to dynamically construct JPQL queries based on active filters instead of generating multiple hard-coded queries.  
+- **Optimized SQL performance by:**  
+  - Adding **composite indexes** on frequently queried columns like `supplier_id`, `status`, and `created_at`.  
+  - Replacing nested joins with optimized `JOIN FETCH` and selective column retrieval using **JPA projections**.  
+  - Using `LIMIT/OFFSET` pagination for incremental data loading instead of fetching full result sets.  
+  - Implementing query caching for recently accessed filter combinations to speed up repeated lookups.  
+- Added **request throttling and debouncing** on the AngularJS frontend to prevent redundant calls during user input.
+
+---
+
+### 🕓 4. Order History and Audit Log
+**Problem:**  
+No visibility into who changed what in orders.  
+
+**Solution:**  
+Implemented a comprehensive **order audit trail** to automatically record every significant CRUD (Create, Read, Update, Delete) event associated with an order.  
+
+**Backend Implementation (Spring Boot + JPA):**  
+- Designed a new table `order_audit_log` with schema:  
+id | order_id | action | user_id | old_value | new_value | timestamp
+
+markdown
+Copy code
+- `action` captured operations like `CREATED`, `UPDATED`, `STATUS_CHANGED`, `APPROVED`, `CANCELLED`.  
+- `old_value` and `new_value` stored serialized JSON snapshots for key fields that changed.  
+- `timestamp` recorded when the change occurred.  
+- Foreign keys linked to both the **orders** and **users** tables for traceability.  
+- Leveraged **Spring JPA’s** `@EntityListeners` and lifecycle annotations (`@PrePersist`, `@PreUpdate`, `@PreRemove`) to automatically log changes whenever an entity was modified.  
+- Created a utility component **AuditLogger** that compared entity state before and after persistence and saved only the changed fields into `order_audit_log`.  
+- Exposed a REST endpoint:  
+GET /orders/{orderId}/history
+
+markdown
+Copy code
+Returns a chronological list of all changes, grouped by user and action, for easy frontend consumption.
+
+---
+
+### 🧩 5. Key Bug Fixes and Backend Enhancements
+**Data Sync Delay:**  
+- Fixed caching logic that delayed new orders appearing in dashboards.  
+- Used `@CacheEvict` on successful order creation and event-driven updates to invalidate cache immediately.  
+
+**Missing Product Details:**  
+- Switched from lazy-loading to explicit **fetch joins** in JPA for `order_items → product` relationships, preventing partial payloads.  
+
+**UI & Validation Fixes:**  
+- Added **AngularJS form validation** for required fields like SKU, quantity, and supplier to prevent incomplete API calls.  
+- Fixed broken date filters, dropdowns, and layout alignment issues.  
+
+**API Error Standardization:**  
+- Created a global `@ControllerAdvice` in **Spring Boot** that returned structured JSON errors:  
+```json
+{
+  "code": "ORDER_NOT_FOUND",
+  "message": "No order exists for given ID",
+  "details": "order_id=12345"
+}
+```
+Unified error handling across services and simplified frontend exception mapping.
+
+### 6. CI/CD and Testing
+Wrote JUnit unit and integration tests for order creation, template cloning, and filtering services — achieved ~85% coverage for core modules.
+
+Created Postman regression suites to automatically validate top APIs after each build.
+
+Integrated both into Jenkins pipelines, which ran on every commit to dev or release branches.
+
+Added build stages:
+compile → unit tests → integration tests → deploy → regression tests → approval.
+
+Collaborated via JIRA with QA and design teams to track tickets and release notes.
+
+
 
 ---
 
