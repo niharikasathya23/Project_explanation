@@ -1076,9 +1076,15 @@ The web application made the model accessible for real-time use, providing pract
 
 ## 6. Intro
 
-I am a **Software Engineer and Researcher** passionate about building intelligent, distributed systems at the intersection of **AI, data, and cloud infrastructure**.  
-My experience spans robotics, backend engineering, DevOps, and machine learning — building scalable platforms for both research and production.
+“I recently finished my Master’s in Computer Science at CU Boulder, where I focused on distributed systems, data pipelines, and cloud architecture.
 
+At Virufy, I worked on building the backend for an AI-driven health diagnostics platform. The system collected and processed cough and breathing sounds for real-time inference, and I helped design it using FastAPI, PostgreSQL, and AWS  to make it scalable and handle 100k patient records.
+
+Before that, at HIRO Lab, I worked on distributed robotics perception systems — building Kafka and Spark pipelines on AWS and web APIs that let researchers visualize and analyze large volumes of unstructured frames/data.
+
+Earlier, at Rakuten, I was part of the team developing a B2B order management portal using Angular JS, Typescript, Spring Boot and MySQL, focusing on backend features and API integrations. And at DRDO, I built a secure data-sharing platform using Flask and PostgreSQL, where I implemented encryption, role-based access, and web interfaces for research teams.
+
+Across these roles, I’ve always enjoyed designing backend systems that connect data, AI, and infrastructure — and that’s what really drew me to Vivpro’s work.”
 ---
 
 ## 7. Deep Intro
