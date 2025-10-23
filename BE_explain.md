@@ -1089,12 +1089,6 @@ Across these roles, I’ve always enjoyed designing backend systems that connect
 
 ## 7. Deep Intro
 
-My work combines:
-- **Systems Thinking:** Designing robust, fault-tolerant architectures for data and AI pipelines.  
-- **Applied ML:** Bridging classical and modern ML for real-world inference at scale.  
-- **End-to-End Engineering:** From REST APIs to cloud deployment and observability.  
-
-Across projects at **Virufy**, **HIRO Lab**, **Rakuten**, and **DRDO**, I’ve developed a strong foundation in designing production-ready AI systems,  
-emphasizing **performance, reliability, and real-time insights**.
+VIVpro builds unified biointelligence platform — which means working at the intersection of backend systems, data modeling, and analytics — and that’s the kind of problem I genuinely enjoy solving. I’ve built scalable backends in Python using FastAPI and Flask, worked with relational and NoSQL databases, and deployed services on AWS. I like taking full ownership — from designing the architecture to automation and optimization — and collaborating closely with teams across data and frontend. So when I read about Vivpro’s approach of taking ideas from concept to product with a strong focus on iteration and learning, it really resonated with how I like to build software.”
 
 ---
