@@ -6,7 +6,7 @@
 3. [Rakuten – Software Engineer Intern](#3-rakuten--software-engineer-intern)  
 4. [DRDO (CAIR) – Software Development Intern](#4-drdo-cair--software-development-intern)  
 5. [Major Projects](#5-major-projects)  
-   - [StockWatch: Real-Time Big Data Pipeline for Stock Sentiment Analysis](#stockwatch--real-time-big-data-pipeline-for-stock-sentiment-analysis)  
+   - [StockWatch Real-Time Big Data Pipeline for Stock Sentiment Analysis](#stockwatch-real-time-big-data-pipeline-for-stock-sentiment-analysis)  
    - [Movie Recommendation System](#movie-recommendation-system)  
    - [Automatic Hate Speech Detection Using Ensemble Methods](#automatic-hate-speech-detection-using-ensemble-methods)  
 6. [Intro](#6-intro)  
@@ -601,7 +601,7 @@ Monitoring was crucial to ensure the stability and security of the platform.
 ## 5. Major Projects
 
 
-## StockWatch: Real-Time Big Data Pipeline for Stock Sentiment Analysis  
+## StockWatch Real-Time Big Data Pipeline for Stock Sentiment Analysis  
 
 ### **Situation:**  
 "In the financial industry, the correlation between public sentiment and stock market performance has been widely observed. Companies are greatly influenced by social media reactions, especially on platforms like **Twitter**. For instance, a positive or negative tweet about a company can result in a noticeable impact on its stock price.  
@@ -926,7 +926,7 @@ The system was designed to handle high traffic while maintaining low latency and
 3. **Real-time User Behavior Tracking:** Implement real-time tracking to refine recommendations based on immediate user actions.  
 ___
 
-## 4. Automatic Hate Speech Detection Using Ensemble Methods
+## Automatic Hate Speech Detection Using Ensemble Methods
 
 ### **Situation:**  
 "With the increasing use of social media, hate speech and offensive content have become serious issues. Traditional models often struggle with detecting hate speech in **multilingual or code-mixed languages** like Hinglish (Hindi-English). Most existing systems only offer **binary classification** (hate vs. non-hate) and fail to classify content into multiple categories such as **hate, offensive, or neither**."
