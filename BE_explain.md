@@ -6,7 +6,7 @@
 3. [Rakuten – Software Engineer Intern](#3-rakuten--software-engineer-intern)  
 4. [DRDO (CAIR) – Software Development Intern](#4-drdo-cair--software-development-intern)  
 5. [Major Projects](#5-major-projects)  
-   - [StockWatch – Real-Time Big Data Pipeline for Stock Sentiment Analysis](#stockwatch--real-time-big-data-pipeline-for-stock-sentiment-analysis)  
+   - [StockWatch: Real-Time Big Data Pipeline for Stock Sentiment Analysis](#stockwatch--real-time-big-data-pipeline-for-stock-sentiment-analysis)  
    - [Movie Recommendation System](#movie-recommendation-system)  
    - [Automatic Hate Speech Detection Using Ensemble Methods](#automatic-hate-speech-detection-using-ensemble-methods)  
 6. [Intro](#6-intro)  
