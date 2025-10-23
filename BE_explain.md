@@ -1078,7 +1078,7 @@ The web application made the model accessible for real-time use, providing pract
 
 “I recently finished my Master’s in Computer Science at CU Boulder, where I focused on distributed systems, data pipelines, and cloud architecture.
 
-At Virufy, I worked on building the backend for an AI-driven health diagnostics platform. The system collected and processed cough and breathing sounds for real-time inference, and I helped design it using FastAPI, PostgreSQL, and AWS  to make it scalable and handle 100k patient records.
+At Virufy, I worked on building the backend for an AI-driven health diagnostics platform and data collection workflows. I designed it using Python FastAPI, PostgreSQL, and AWS to support large-scale data ingestion and real-time inference for over 100K patient records.
 
 Before that, at HIRO Lab, I worked on distributed robotics perception systems — building Kafka and Spark pipelines on AWS and web APIs that let researchers visualize and analyze large volumes of unstructured frames/data.
 
