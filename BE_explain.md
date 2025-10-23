@@ -470,17 +470,131 @@ Collaborated via JIRA with QA and design teams to track tickets and release note
 
 ## 4. DRDO (CAIR) – Software Development Intern
 
-### 🛰️ Overview
-At **Defence Research & Development Organisation (CAIR)**, I built a secure file management and analytics web platform for researchers and administrators.
+During my internship at **DRDO's Centre for Artificial Intelligence and Robotics (CAIR)**, I was responsible for developing a **Secure Data-Sharing Platform** for internal use. This platform aimed to facilitate **secure communication and data sharing** between research teams while adhering to strict security protocols. The focus was on building a web-based system with **role-based access control, end-to-end encryption, and comprehensive logging and monitoring.**
 
-### 🧩 Key Contributions
-- Developed **RESTful APIs** with **Flask** and **PostgreSQL** supporting JWT-based authentication.  
-- Implemented **AES encryption** for file storage and **SSL/TLS** for secure communication.  
-- Designed a **React-based dashboard** for data upload, search, and role-based access control.  
-- Ensured compliance with secure data transmission and storage standards.
+---
 
-### ⚙️ Tech Stack
-`Python` · `Flask` · `React` · `PostgreSQL` · `JWT` · `AES` · `SSL/TLS`
+## **1. Objective: Secure Data-Sharing Platform**  
+### **What Was the Problem?**  
+In research institutions like DRDO, teams often need to share **confidential and sensitive information**. Previously, this was done manually or via email, which posed several risks:  
+- **Unauthorized access** to sensitive data.  
+- **Lack of a centralized system** for managing file access and permissions.  
+- **No tracking or logging**, making it difficult to monitor data usage.  
+
+**Our Goal:**  
+To build a **centralized and highly secure web platform** that allows multiple roles (e.g., Admin, Researcher, Analyst) to **upload, share, and access files** securely, ensuring only authorized users could interact with the data.
+
+On the backend, I built RESTful APIs using Python Flask integrated with PostgreSQL, implementing JWT authentication, OAuth2 role-based access control, and AES-256 encryption for files. All data transfer was secured through SSL/TLS, ensuring complete protection in transit and at rest. I also added audit logging, multi-factor authentication, and input sanitization to prevent unauthorized access and common vulnerabilities.
+
+On the frontend, I developed a React + Bootstrap interface that allowed users to upload, download, and manage files based on their roles, with real-time dashboards for activity tracking and permissions. Role-aware UI components ensured that admins, researchers, and analysts each had restricted, contextual views.
+
+For deployment and automation, I configured Jenkins CI/CD pipelines and Docker containers to enable consistent, test-driven releases. I integrated Prometheus and Grafana dashboards for live monitoring and alerting, ensuring stability and traceability of all actions.
+
+## **Project Outcomes and Results**  
+1. **High-Security Standards:** Achieved **100% compliance with DRDO’s security protocols** by implementing encryption, access control, and monitoring.  
+2. **Improved Data Sharing:** The platform enabled secure and efficient file sharing among research teams, reducing manual processes and errors.  
+3. **Scalable and Robust Architecture:** Designed for scalability, ensuring future expansion and integration with other DRDO systems.  
+
+---
+
+## **2. Backend Development (Python Flask)**  
+### **Why Python Flask?**  
+We chose **Flask** for backend development because:  
+- **Lightweight and Flexible:** Flask is highly customizable and well-suited for building APIs.  
+- **Built-in Support for RESTful APIs:** It allowed us to quickly design and expose APIs for user authentication, file management, and access control.  
+- **Integration with Security Libraries:** Flask seamlessly integrates with libraries for encryption, token-based authentication, and security protocols.
+
+---
+
+### **How the Backend Was Implemented:**  
+1. **RESTful APIs:** Developed APIs for authentication, file upload/download, role management, and audit logging.  
+2. **JWT (JSON Web Tokens):** Used for secure session management and token-based authentication.  
+   - **Why JWT?** It provides a stateless authentication mechanism, reducing the need for server-side session storage and enhancing security.  
+3. **Role-Based Access Control (RBAC):**  
+   - Implemented **RBAC** to restrict access to sensitive resources based on user roles (Admin, Researcher, Analyst).  
+   - Admins could manage roles and permissions, while researchers could only access data specific to their projects.  
+
+---
+
+## **3. Database Management (PostgreSQL)**  
+### **Why PostgreSQL?**  
+We selected **PostgreSQL** for its:  
+- **ACID Compliance:** Ensures transactional integrity, which is crucial for handling sensitive data.  
+- **Role-based security:** PostgreSQL supports granular access control at the table, column, and row level.  
+- **JSON Support:** Simplified storage of metadata related to file uploads and user activities.
+
+---
+
+### **Database Structure:**  
+- **Users Table:** Stores user information, roles, and permissions.  
+- **Files Table:** Tracks uploaded files, associated metadata (uploader, timestamp), and encrypted file paths.  
+- **Access Logs Table:** Maintains detailed logs of user activities for auditing purposes.
+
+### **Data Encryption:**  
+- **AES (Advanced Encryption Standard) for File Encryption:** Ensured that all uploaded files were encrypted before being stored in the database.  AES (Advanced Encryption Standard) is a symmetric key encryption algorithm, meaning the same key is used for both encrypting and decrypting data.It operates on fixed-size blocks of data (usually 128-bit blocks)
+- **Why AES?** AES is a widely adopted and secure encryption standard that provides high performance and robust security.  
+
+---
+
+## **4. Security Enhancements**  
+Security was the top priority for this project. Several measures were implemented to protect data from unauthorized access and cyberattacks.
+
+### **1. SSL/TLS for Secure Communication:**  
+SSL (Secure Sockets Layer) and TLS (Transport Layer Security) are cryptographic protocols that encrypt data between the client (browser/app) and the server (your backend).
+**Why SSL/TLS?**  
+- Ensures all communication between the client and server is encrypted.  
+- Prevents man-in-the-middle (MITM) attacks.  
+- Protects sensitive data (passwords, tokens) during transmission.
+
+### **2. Input Validation and Sanitization:**  
+Prevented common vulnerabilities like **SQL injection**, users entering unexpected or harmful data to exploit your system. **cross-site scripting (XSS)**Attackers inject malicious JavaScript into a web page seen by others., and **cross-site request forgery (CSRF)** Attackers inject malicious JavaScript into a web page seen by others. by sanitizing user inputs and using prepared statements for database queries.
+
+### **3. Multi-Factor Authentication (MFA):**  
+**Why MFA?**  
+- Added an extra layer of security for accessing the platform.  
+- Combined **password-based authentication with one-time passcodes (OTP)** to ensure only verified users could access sensitive data.
+
+---
+
+## **5. Frontend Development (ReactJS)**  
+### **Why ReactJS?**  
+We chose **ReactJS** for its modern UI capabilities, making it easier to build a dynamic and responsive user interface:  
+- **Component-based architecture** simplified the development and maintenance of the application.  
+- **Bootstrap integration** helped create a clean and mobile-friendly interface.  
+- **Real-time UI updates** for file uploads, role management, and activity monitoring provided a smooth user experience.
+
+---
+
+### **Frontend Features:**  
+1. **User Dashboard:** Displays uploaded files, user activity logs, and role-based permissions.  
+2. **File Upload/Download:** Supports secure file upload and download, with real-time progress indicators.  
+3. **Audit Logs View:** Allows admins to monitor all user activities in a timeline view for better control and security.
+
+---
+
+## **6. Continuous Integration and Deployment (CI/CD)**  
+### **Why CI/CD Was Necessary?**  
+Automating the build, test, and deployment processes ensured consistent and reliable deployments, reducing manual errors.  
+
+### **Tools Used:**  
+- **Jenkins for CI/CD Pipelines:** Automated testing and deployment to staging and production environments.  
+- **Docker for Containerization:** Ensured consistency across development, testing, and production environments.  
+- **SonarQube for Code Quality Analysis:** Integrated into the pipeline to check for vulnerabilities and maintain high code standards.  
+
+### **Pipeline Steps:**  
+1. **Build and Unit Tests:** Automatically triggered on every code commit.  
+2. **Security Scans:** Detect potential vulnerabilities before deployment.  
+3. **Automated Deployment:** Ensured smooth and consistent releases.
+
+---
+
+## **7. Monitoring and Logging**  
+Monitoring was crucial to ensure the stability and security of the platform.  
+
+### **Tools Used:**  
+- **Prometheus and Grafana:** For real-time monitoring of server health, API performance, and database usage.  
+- **Audit Logs:** Recorded every user action (file upload, download, permission changes), helping with compliance and forensic analysis.  
+- Improved accountability with detailed audit trails.
 
 ---
 
