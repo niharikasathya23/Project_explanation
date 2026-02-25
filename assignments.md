@@ -1,11 +1,24 @@
 # Producer–Consumer with Bounded Blocking Queue
+- [Overview](#overview)
+- [1) Data Model: Item](#1-data-model-item)
+- [2) SharedQueue](#2-core-component-sharedqueue)
+  - [2.1 Constructor & Internal State](#21-constructor-and-internal-state)
+  - [2.2 stop() and is_stopped()](#22-stop-and-is_stopped)
+  - [2.3 enqueue()](#23-enqueue)
+  - [2.4 dequeue()](#24-dequeue)
+- [3) Producer Thread](#3-producer-thread)
+- [4) Consumer Thread](#4-consumer-thread)
+- [5) DataTransferManager](#5-orchestration-datatransfermanager)
+- [6) Demo: main_demo()](#6-demo-main_demo)
+- [Improvements](#improvements)
+- [Scaling Considerations](#scaling)
 
 “This code implements a producer-consumer pipeline using a bounded blocking queue of capacity 10. 
 Producer pushes Items into the queue, consumer pulls them out, and we use Lock + Condition(wait/notify) for correct blocking and graceful shutdown.”
 
 ---
 
-## 1) Data model: Item (45 sec)
+## 1) Data model: Item
 
 **Where:** `@dataclass(frozen=True) class Item`
 
@@ -21,7 +34,7 @@ Immutable objects reduce concurrency risk.
 
 ---
 
-## 2) Core component: SharedQueue (3–4 min)
+## 2) Core component: SharedQueue
 
 ### 2.1 Constructor and internal state (1 min)
 
@@ -48,7 +61,7 @@ Immutable objects reduce concurrency risk.
 
 ---
 
-### 2.2 stop() and is_stopped() (45 sec)
+### 2.2 stop() and is_stopped()
 
 **Where:** `stop()` and `is_stopped()`
 
@@ -62,7 +75,7 @@ Immutable objects reduce concurrency risk.
 
 ---
 
-### 2.3 enqueue() (1–1.5 min)
+### 2.3 enqueue()
 
 **Where:** `enqueue(self, item, timeout=None)`
 
@@ -96,7 +109,7 @@ Lock protects buffer size check + append as one atomic section.
 
 ---
 
-### 2.4 dequeue() (1–1.5 min)
+### 2.4 dequeue()
 
 **Where:** `dequeue(self, timeout=None)`
 
@@ -122,7 +135,7 @@ Timeout logic mirrors enqueue.
 
 ---
 
-## 3) Producer thread (1–1.5 min)
+## 3) Producer thread
 
 **Where:** `class Producer(threading.Thread)`
 
@@ -142,7 +155,7 @@ Timeout logic mirrors enqueue.
 
 ---
 
-## 4) Consumer thread (1–1.5 min)
+## 4) Consumer thread
 
 **Where:** `class Consumer(threading.Thread)`
 
@@ -162,7 +175,7 @@ Timeout logic mirrors enqueue.
 
 ---
 
-## 5) Orchestration: DataTransferManager (1.5–2 min)
+## 5) Orchestration: DataTransferManager
 
 ### 5.1 Constructor (20 sec)
 
@@ -170,13 +183,13 @@ Timeout logic mirrors enqueue.
 
 ---
 
-### 5.2 startTransfer() (15 sec)
+### 5.2 startTransfer()
 
 “Starts threads once. _started prevents double-start.”
 
 ---
 
-### 5.3 stopTransfer() (30 sec)
+### 5.3 stopTransfer()
 
 “Sets stop_event and calls sharedQueue.stop().”
 
@@ -190,7 +203,7 @@ Returns current queue state. Useful for monitoring or debugging.
 
 ---
 
-### 5.4 waitForCompletion() (1 min)
+### 5.4 waitForCompletion()
 
 **What to say clearly:**
 
@@ -212,7 +225,7 @@ This method guarantees no hanging threads.
 
 ---
 
-## 6) Demo: main_demo() (1 min)
+## 6) Demo: main_demo()
 
 **What to say:**
 
