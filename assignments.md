@@ -12,6 +12,7 @@
 - [6) Demo: main_demo()](#6-demo-main_demo)
 - [Improvements](#improvements)
 - [Scaling Considerations](#scaling)
+- [Design Assumptions](#design-assumptions)
 
 “This code implements a producer-consumer pipeline using a bounded blocking queue of capacity 10. 
 Producer pushes Items into the queue, consumer pulls them out, and we use Lock + Condition(wait/notify) for correct blocking and graceful shutdown.”
@@ -446,3 +447,76 @@ And the broker handles:
 - scaling (add more consumers to increase throughput)  
 
 So this is the true “scale-out” step.
+
+# Design Assumptions
+
+## 1️⃣ Single Producer and Single Consumer
+
+The assignment didn’t explicitly say how many producers/consumers.
+
+I assumed:
+
+- One producer  
+- One consumer  
+
+If multiple producers/consumers were required, we would need:
+
+- Stronger contention testing  
+- Fairness guarantees  
+- Possibly different signaling strategy  
+
+---
+
+## 2️⃣ FIFO Ordering Is Required
+
+They didn’t explicitly say ordering must be preserved.
+
+I assumed:
+
+- Items must be consumed in the same order they were produced.  
+
+That’s why I used `deque` and FIFO semantics.
+
+If ordering was not required, we could use:
+
+- Priority queue  
+- LIFO stack  
+- Work stealing model  
+
+---
+
+## 3️⃣ Cooperative Shutdown Model
+
+The assignment says “terminate gracefully.”
+
+I assumed:
+
+- Threads should not be force-killed.  
+- Shutdown should be cooperative via flags and condition signaling.  
+
+Python does not support safe forced thread termination, so cooperative shutdown is the correct assumption.
+
+---
+
+## 4️⃣ All Items Fit in Memory
+
+Since the queue is in-memory, I assumed:
+
+- Items are small  
+- Memory capacity is not a constraint  
+
+If items were large (e.g., files, images), we would need:
+
+- Streaming model  
+- Disk-backed queue  
+- External message broker  
+
+---
+
+## 5️⃣ Consumer Work Is Not Heavy CPU-Bound
+
+Because we use threads, I assumed:
+
+- Work is IO-bound or lightweight.  
+
+If the consumer performs heavy CPU computation, Python’s GIL becomes a bottleneck and multiprocessing would be required.
