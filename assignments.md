@@ -687,7 +687,7 @@ If the consumer performs heavy CPU computation, Python’s GIL becomes a bottlen
 “I used dataclass to reduce boilerplate and clearly represent structured sales data.”
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 ## SalesDataLoader
 
 ### load_from_csv
@@ -722,7 +722,7 @@ Returns the final list of records.
 Catches FileNotFoundError and raises a clear error message.
 
 ---
-
+[⬆ Back to Top](#top)
 ### _parse_row(row: Dict[str, str], line_no: int)
 
 This method takes one CSV row and converts it into a SaleRecord.
@@ -755,6 +755,7 @@ Its job is to safely fetch required fields.
 
 If a field is missing or empty, it throws a clear error.
 
+[⬆ Back to Top](#top)
 ---
 
 ### Extracting Required Fields
@@ -800,6 +801,7 @@ If any are negative, I raise a validation error.
 This protects data integrity.
 
 ---
+[⬆ Back to Top](#top)
 
 ### Creating the Final Object
 
@@ -822,7 +824,7 @@ I include the line number in every error.
 This makes debugging very easy.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ## SalesAnalyzer
 
@@ -871,7 +873,7 @@ Since filter() returns an iterator, it converts it to a list.
 Returns the final filtered records.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ### getTotalSalesByRegion()
 
@@ -907,7 +909,7 @@ If not → start from 0.0.
 Returns the final dictionary.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 ### getAverageSaleByCategory()
 
 Calculates average sale amount per product category.
@@ -980,7 +982,7 @@ Takes first n elements:
 Group → Sort → Take Top N
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ### getMonthlySalesTrend()
 
@@ -1038,7 +1040,7 @@ Monthly trend
 Record count
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ## Sales Improvements
 
@@ -1149,7 +1151,7 @@ Subsequent methods break.
 A fully streaming solution would require restructuring the analyzer to compute aggregations in a single pass or re-read the file per method, which increases architectural complexity.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ## Scalability Enhancements
 
@@ -1210,7 +1212,7 @@ I could use a heap-based approach.
 That reduces sorting cost from O(n log n) to O(n log k).
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ## Testing Coverage
 
