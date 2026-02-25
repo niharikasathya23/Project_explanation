@@ -14,6 +14,24 @@
 - [Scaling Considerations](#scaling)
 - [Design Assumptions](#design-assumptions)
 
+# Sales Analytics
+- [Why @dataclass](#why-dataclass)
+- [SalesDataLoader](#salesdataloader)
+  - [load_from_csv](#load_from_csv)
+  - [_parse_row](#_parse_row)
+- [SalesAnalyzer](#salesanalyzer)
+  - [getSalesByDateRange](#getsalesbydaterange)
+  - [getTotalSalesByRegion](#gettotalsalesbyregion)
+  - [getAverageSaleByCategory](#getaveragesalebycategory)
+  - [getTopSalespersons](#gettopsalespersons)
+  - [getMonthlySalesTrend](#getmonthlysalestrend)
+  - [generateSummaryReport](#generatesummaryreport)
+- [Improvements](#improvements)
+- [Scalability Enhancements](#scalability-enhancements)
+- [Testing Coverage](#testing-coverage)
+- [Assumptions](#assumptions)
+
+
 “This code implements a producer-consumer pipeline using a bounded blocking queue of capacity 10. 
 Producer pushes Items into the queue, consumer pulls them out, and we use Lock + Condition(wait/notify) for correct blocking and graceful shutdown.”
 
@@ -283,7 +301,6 @@ Consumer exits only when it consumes sentinel.
 - A cleaner design would move that retry logic into the queue itself. The Producer should just produce items and call enqueue(), and the queue should handle waiting and retry internally.
 - This improves encapsulation because each class handles its own responsibility. The Producer focuses on producing data, and the queue handles synchronization and blocking policy. It also makes the code cleaner and easier to maintain if the retry behavior changes later.”
 
-
 ---
 
 ### 4️⃣ Remove daemon=True
@@ -306,7 +323,7 @@ Improves lifecycle safety.
 
 ### 🏅 Add Stress Testing
 
-Test scenarios:
+Test scenarios: Currently I test correctness, blocking behavior, graceful shutdown, and timeout handling
 
 - capacity=1  
 - fast producer / slow consumer  
@@ -520,3 +537,590 @@ Because we use threads, I assumed:
 - Work is IO-bound or lightweight.  
 
 If the consumer performs heavy CPU computation, Python’s GIL becomes a bottleneck and multiprocessing would be required.
+
+# Sales Analytics System
+
+---
+
+## Why @dataclass
+
+“I used dataclass to reduce boilerplate and clearly represent structured sales data.”
+
+---
+
+## SalesDataLoader
+
+### load_from_csv
+
+Takes a file path as input and returns a list of SaleRecord.  
+Uses try block to safely handle file-related errors.
+
+Opens the file using with so it auto-closes properly.  
+newline="" → prevents newline parsing issues in CSV  
+encoding="utf-8" → handles special characters safely  
+
+Uses csv.DictReader so each row is a dictionary (safer than index-based access).  
+
+“I used DictReader instead of index-based parsing to avoid column-order dependency and improve readability.”
+
+Checks if the CSV has a header row.
+
+Validates that all required columns are present.
+
+Creates an empty list to store parsed records.
+
+Loops through each row using enumerate.
+
+Uses start=2 because line 1 is the header.
+
+Calls _parse_row() to handle parsing and validation.
+
+Appends each valid SaleRecord to the list.
+
+Returns the final list of records.
+
+Catches FileNotFoundError and raises a clear error message.
+
+---
+
+### _parse_row(row: Dict[str, str], line_no: int)
+
+This method takes one CSV row and converts it into a SaleRecord.
+
+It validates all required fields.
+
+It converts string values into proper types.
+
+It applies basic business rules.
+
+If anything is wrong, it raises a meaningful error with the exact line number.
+
+---
+
+### Why I Created _parse_row Separately
+
+I didn’t want parsing logic mixed inside the file-reading loop.
+
+This keeps the code clean and modular.
+
+It makes testing easier — I can test row parsing independently.
+
+---
+
+### The req() Helper Function
+
+I created a small helper function inside _parse_row.
+
+Its job is to safely fetch required fields.
+
+If a field is missing or empty, it throws a clear error.
+
+---
+
+### Extracting Required Fields
+
+I call req() for all required columns.
+
+This guarantees no required field is missing.
+
+It also strips whitespace to avoid subtle data issues.
+
+---
+
+### Type Conversions
+
+I convert quantity to int.
+
+I convert unitPrice to float.
+
+I parse date using strict ISO format.
+
+If conversion fails, it automatically gets caught in the exception block.
+
+This ensures the object has correct data types.
+
+---
+
+### Handling totalAmount
+
+If totalAmount exists in the CSV, I use it.
+
+Otherwise, I calculate it as quantity * unitPrice.
+
+This makes the system flexible.
+
+---
+
+### Business Rule Validation
+
+I check that quantity, unit price, and total amount are not negative.
+
+If any are negative, I raise a validation error.
+
+This protects data integrity.
+
+---
+
+### Creating the Final Object
+
+After validation and conversion, I create and return a SaleRecord.
+
+Since it’s a frozen dataclass, it becomes immutable.
+
+That prevents accidental modification later.
+
+---
+
+### Exception Handling Strategy
+
+If it’s already a MalformedCSVError, I re-raise it.
+
+If it’s any other error (like type conversion), I wrap it inside MalformedCSVError.
+
+I include the line number in every error.
+
+This makes debugging very easy.
+
+---
+
+## SalesAnalyzer
+
+### getSalesByDateRange()
+
+What This Method Does  
+It filters sales between a start date and end date.
+
+It can optionally filter by region.
+
+It can optionally filter by product category.
+
+It returns a list of matching sale records.
+
+First Step — Validate Date Range  
+It checks if start_date is greater than end_date.
+
+If yes, it raises a ValueError.
+
+This prevents logical mistakes early.
+
+Second Step — Filter by Date  
+It uses filter() with a lambda function.
+
+Keeps only records where the date falls within the range.
+
+At this point, it creates a filtered iterator, not a list yet.
+
+Third Step — Optional Region Filter  
+If region is provided, it filters further.
+
+Only keeps records that match the region.
+
+If region is None, it skips this step.
+
+Fourth Step — Optional Category Filter  
+Same logic as region.
+
+If category is provided, it filters further.
+
+If not provided, it skips it.
+
+Final Step — Convert to List  
+Since filter() returns an iterator, it converts it to a list.
+
+Returns the final filtered records.
+
+---
+
+### getTotalSalesByRegion()
+
+Calculates total sales amount per region.
+
+Returns a dictionary like:
+
+{
+ "West": 12000.0,
+ "East": 8000.0
+}
+
+Creates an empty dictionary called totals.
+
+Loops through every sale record.
+
+For each record:
+
+Gets the region.
+
+Adds totalAmount to that region’s running total.
+
+Uses:
+
+totals.get(r.region, 0.0)
+
+This means:
+
+If region exists → get current total.
+
+If not → start from 0.0.
+
+Returns the final dictionary.
+
+---
+
+### getAverageSaleByCategory()
+
+Calculates average sale amount per product category.
+
+Returns something like:
+
+{
+ "Electronics": 250.0,
+ "Clothing": 100.0
+}
+
+Step 1: Track sum and count  
+Creates a dictionary:
+
+{ category: (sum, count) }
+
+For each record:
+
+Gets existing sum and count.
+
+Adds sale amount to sum.
+
+Increments count.
+
+Step 2: Compute average  
+Uses dictionary comprehension:
+
+s / c
+
+Protects against division by zero:
+
+if c else 0.0
+
+This is:
+
+Group by category  
+Calculate sum  
+Divide by count
+
+---
+
+### getTopSalespersons(n)
+
+Returns top n salespersons based on total sales.
+
+Example:
+
+[("Alice", 12000), ("Bob", 10000)]
+
+Step 1: Handle invalid n  
+If n <= 0, return empty list.
+
+Step 2: Group by salesperson  
+Build dictionary:
+
+{ salesperson: total_sales }
+
+Step 3: Sort  
+Uses:
+
+sorted(..., key=lambda kv: kv[1], reverse=True)
+
+Sorts by total sales descending.
+
+Step 4: Slice  
+Takes first n elements:
+
+[:n]
+
+Group → Sort → Take Top N
+
+---
+
+### getMonthlySalesTrend()
+
+Groups sales by month (YYYY-MM format).
+
+Returns:
+
+{
+ "2025-01": 5000,
+ "2025-02": 7000
+}
+
+Step 1: Create month key  
+Formats date like:
+
+2025-01
+
+Uses zero padding for consistency.
+
+Step 2: Aggregate  
+Adds totalAmount to that month.
+
+Step 3: Sort  
+Uses:
+
+sorted(trend.items())
+
+Ensures chronological order.
+
+Group by month → Sum → Sort
+
+---
+
+### generateSummaryReport()
+
+Creates a full analytics summary.
+
+Combines all other methods into one structured report.
+
+Step 1: Compute Grand Total  
+Uses reduce():
+
+total_sales = reduce(lambda acc, r: acc + r.totalAmount, ...)
+
+Accumulates total sales across all records.
+
+Step 2: Build Report Dictionary  
+Includes:
+
+Grand total  
+Sales by region  
+Average by category  
+Top performers  
+Monthly trend  
+Record count
+
+---
+
+## Improvements
+
+1️⃣ Validate totalAmount Consistency  
+Right now:
+
+total_amount = float(row.get("totalAmount", "")) if row.get("totalAmount") else quantity * unit_price
+
+If CSV gives wrong total, you accept it.
+
+Inside _parse_row()
+
+Right after computing total_amount.
+
+Add:
+
+expected_total = quantity * unit_price  
+if abs(total_amount - expected_total) > 1e-6:  
+   raise MalformedCSVError(  
+       f"Line {line_no}: totalAmount mismatch (expected {expected_total})"  
+   )
+
+---
+
+2️⃣ Enforce Unique transactionId  
+Duplicates currently allowed.
+
+Inside load_from_csv()
+
+Before appending record to list.
+
+Add a set at top of method:
+
+seen_ids = set()
+
+Then inside loop:
+
+if record.transactionId in seen_ids:  
+   raise MalformedCSVError(f"Duplicate transactionId at line {i}")  
+seen_ids.add(record.transactionId)
+
+---
+
+3️⃣ Case-Insensitive Filtering
+
+Filtering currently strict match.
+
+Inside getSalesByDateRange():
+
+Change:
+
+r.region == region
+
+To:
+
+r.region.lower() == region.lower()
+
+Same for category.
+
+---
+
+4️⃣ Optimize Top-N With Heap
+
+Currently:
+
+sorted(...)[ : n ]  
+O(n log n)
+
+Inside getTopSalespersons()
+
+Replace sorting line with:
+
+import heapq  
+return heapq.nlargest(n, totals.items(), key=lambda kv: kv[1])
+
+O(n log k)
+
+---
+
+5️⃣ Support Streaming for Large Files
+
+Currently
+
+CSV → load entire list → store in memory → analyze
+
+Modify load_from_csv():
+
+Instead of building list:
+
+records.append(SalesDataLoader._parse_row(row, line_no=i))
+
+Use:
+
+yield SalesDataLoader._parse_row(row, line_no=i)
+
+Then analyzer would accept iterable instead of list.
+
+Update:
+
+def __init__(self, records: Iterable[SaleRecord]):
+
+If loader returns a generator:
+
+Generator gets exhausted after first use.
+
+Subsequent methods break.
+
+A fully streaming solution would require restructuring the analyzer to compute aggregations in a single pass or re-read the file per method, which increases architectural complexity.
+
+---
+
+## Scalability Enhancements
+
+Current scale limitation?
+
+Right now, I load the entire CSV into memory.
+
+All records are stored in a list.
+
+That works fine for small files.
+
+But if the file has millions of rows, memory usage will become a problem.
+
+How would I improve it?
+
+1️⃣ Use streaming instead of loading everything  
+Instead of returning a full list, I would use a generator.
+
+Process one row at a time.
+
+That way, I don’t keep the whole dataset in memory.
+
+2️⃣ Aggregate while reading  
+Instead of loading data first and then calculating totals,
+
+I would calculate totals during file reading.
+
+That reduces memory and improves efficiency.
+
+3️⃣ Avoid unnecessary list conversions  
+Right now, some methods convert filters into lists.
+
+For large datasets, I would return iterators or generators.
+
+Only convert to list if absolutely needed.
+
+4️⃣ Use a database for very large data  
+If the dataset becomes very large,
+
+I would load it into a database.
+
+Use SQL GROUP BY for aggregation.
+
+Databases are optimized for this.
+
+5️⃣ Use optimized libraries  
+For analytics-heavy workloads,
+
+I could use Pandas.
+
+It is faster and memory-efficient because it uses optimized C code internally.
+
+6️⃣ Optimize top-N calculation  
+Instead of sorting the entire dataset,
+
+I could use a heap-based approach.
+
+That reduces sorting cost from O(n log n) to O(n log k).
+
+---
+
+## Testing Coverage
+
+1️⃣ What You Implemented AND Tested (Strong Areas)
+
+CSV loads correctly  
+Malformed date raises error  
+Total sales calculation  
+Average calculation  
+Top N logic  
+Monthly grouping  
+Date + region + category filtering  
+Summary report structure  
+
+2️⃣ Implemented BUT Did NOT Test (Missing Tests)
+
+Missing column in CSV header  
+Negative quantity  
+Negative unitPrice  
+Negative totalAmount  
+start_date > end_date  
+n <= 0 in getTopSalespersons  
+Empty CSV (header only, no rows)  
+
+3️⃣ Missing in Implementation (Not Handled at All)
+
+Duplicate transactionId not checked  
+totalAmount mismatch not validated  
+Case-insensitive filtering  
+Very large file memory handling  
+
+---
+
+## Assumptions
+
+1️⃣ The Dataset Fits in Memory  
+The CSV file is small to medium sized and can be fully loaded into memory.
+
+2️⃣ transactionId Is Unique  
+Each transaction ID is unique.
+
+3️⃣ Dates Follow ISO Format (YYYY-MM-DD)  
+Dates are in ISO format.
+
+4️⃣ Numeric Fields Are Clean and Well-Formatted  
+quantity and unitPrice are valid numeric values without commas, currency symbols, or localization formatting.
+
+5️⃣ Data Volume Is Moderate Enough for Full Sorting  
+Sorting entire datasets for top-N is acceptable.
+
+Assumption: One Transaction Per Row  
+
+Each row in the CSV represents exactly one complete transaction.  
+
+All fields in that row belong to a single sale.  
+
+There are no multi-line transactions.  
+
+There are no parent-child relationships across rows.
