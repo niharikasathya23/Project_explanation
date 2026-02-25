@@ -11,6 +11,7 @@
 - [5) DataTransferManager](#5-orchestration-datatransfermanager)
 - [6) Demo: main_demo()](#6-demo-main_demo)
 - [Improvements](#improvements)
+- [Tests](#tests)
 - [Scaling Considerations](#scaling)
 - [Design Assumptions](#design-assumptions)
 
@@ -331,6 +332,133 @@ Test scenarios: Currently I test correctness, blocking behavior, graceful shutdo
 - random sleeps  
 
 Concurrency bugs often appear only under stress.
+
+# Test Coverage
+
+This test suite verifies:
+
+- Correct FIFO data transfer
+- Blocking behavior (full and empty queue)
+- Timeout handling
+- Graceful shutdown
+- Early termination
+- No thread leaks
+- No data loss or duplication
+- Proper error propagation
+---
+
+## Test Suite: `TestSharedQueue`
+
+### 1️⃣ test_enqueue_dequeue_basic
+
+Validates basic functionality of the queue.
+
+- Enqueue one item.
+- Dequeue the same item.
+- Verify equality.
+
+✅ Ensures basic FIFO behavior works correctly.
+
+---
+
+### 2️⃣ test_dequeue_timeout_when_empty
+
+- Create empty queue.
+- Attempt to dequeue with timeout.
+
+Expected result:
+
+- Raises `TimeoutError`.
+
+✅ Ensures consumer blocks correctly and timeout handling works.
+
+---
+
+### 3️⃣ test_enqueue_timeout_when_full
+
+- Create queue with capacity = 1.
+- Enqueue one item.
+- Attempt to enqueue second item with timeout.
+
+Expected result:
+
+- Raises `TimeoutError`.
+
+✅ Ensures producer blocks correctly when queue is full.
+
+---
+
+### 4️⃣ test_stop_unblocks_waiters
+
+- Fill queue.
+- Call `stop()`.
+- Attempt enqueue → should raise `TransferStoppedError`.
+- Dequeue existing item.
+- Attempt dequeue again → should raise `TransferStoppedError`.
+
+✅ Ensures:
+- Shutdown flag works.
+- Waiting threads are unblocked.
+- No deadlock occurs during shutdown.
+
+---
+
+## Test Suite: `TestDataTransferManager`
+
+### 5️⃣ test_complete_transfer_all_items
+
+- Create 50 items.
+- Start transfer.
+- Wait for completion.
+
+Assertions:
+
+- All items transferred.
+- Produced count == source size.
+- Consumed count == source size.
+- FIFO ordering preserved.
+
+✅ Validates full end-to-end correctness.
+
+---
+
+### 6️⃣ test_stop_transfer_early
+
+- Start transfer with large dataset.
+- Stop early.
+- Join both threads.
+
+Assertions:
+
+- Destination size ≤ source size.
+- Producer not alive.
+- Consumer not alive.
+
+✅ Ensures:
+- Early shutdown works.
+- No hanging threads.
+- System terminates safely mid-transfer.
+
+---
+
+### 7️⃣ test_wait_for_completion_timeout
+
+- Start transfer with very large dataset.
+- Call `waitForCompletion()` with very small timeout.
+
+Expected:
+
+- Raises `TimeoutError`.
+
+Then:
+
+- Stop transfer.
+- Ensure threads terminate.
+
+✅ Validates:
+- Timeout handling.
+- Manager-level safety control.
+- No indefinite blocking.
 
 ---
 
