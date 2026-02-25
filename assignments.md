@@ -333,7 +333,7 @@ Test scenarios: Currently I test correctness, blocking behavior, graceful shutdo
 
 Concurrency bugs often appear only under stress.
 
-# Test Coverage
+# Tests
 
 This test suite verifies:
 
