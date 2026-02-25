@@ -82,6 +82,7 @@ Immutable objects reduce concurrency risk.
 “Producer and consumer wait for different conditions, so splitting them makes signaling precise.”
 
 ---
+[⬆ Back to Top](#top)
 
 ### 2.2 stop() and is_stopped()
 
@@ -130,7 +131,7 @@ Immutable objects reduce concurrency risk.
 Lock protects buffer size check + append as one atomic section.
 
 ---
-
+[⬆ Back to Top](#top)
 ### 2.4 dequeue()
 
 **Where:** `dequeue(self, timeout=None)`
@@ -176,6 +177,7 @@ Timeout logic mirrors enqueue.
 `produced_count` is for observability/testing.
 
 ---
+[⬆ Back to Top](#top)
 
 ## 4) Consumer thread
 
@@ -196,6 +198,7 @@ Timeout logic mirrors enqueue.
 “Consumer exit is controlled by queue stop signal and exception path.”
 
 ---
+[⬆ Back to Top](#top)
 
 ## 5) Orchestration: DataTransferManager
 
@@ -268,6 +271,7 @@ Prints statistics like how many items were produced and consumed.
 “Asserts all items were transferred in order.”
 
 ---
+[⬆ Back to Top](#top)
 
 ## Improvements
 
@@ -305,6 +309,7 @@ Consumer exits only when it consumes sentinel.
 - This improves encapsulation because each class handles its own responsibility. The Producer focuses on producing data, and the queue handles synchronization and blocking policy. It also makes the code cleaner and easier to maintain if the retry behavior changes later.”
 
 ---
+[⬆ Back to Top](#top)
 
 ### 4️⃣ Remove daemon=True
 
@@ -323,6 +328,7 @@ Rely entirely on join().
 Improves lifecycle safety.
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ### 🏅 Add Stress Testing
 
@@ -348,6 +354,7 @@ This test suite verifies:
 - No data loss or duplication
 - Proper error propagation
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ## Test Suite: `TestSharedQueue`
 
@@ -404,6 +411,7 @@ Expected result:
 - No deadlock occurs during shutdown.
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ## Test Suite: `TestDataTransferManager`
 
@@ -463,6 +471,7 @@ Then:
 - No indefinite blocking.
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 # Scaling
 
@@ -595,6 +604,7 @@ And the broker handles:
 
 So this is the true “scale-out” step.
 
+[⬆ Back to Top](#sales-analytics-system)
 # Design Assumptions
 
 ## 1️⃣ Single Producer and Single Consumer
@@ -677,7 +687,7 @@ If the consumer performs heavy CPU computation, Python’s GIL becomes a bottlen
 “I used dataclass to reduce boilerplate and clearly represent structured sales data.”
 
 ---
-
+[⬆ Back to Top](#sales-analytics-system)
 ## SalesDataLoader
 
 ### load_from_csv
@@ -812,6 +822,7 @@ I include the line number in every error.
 This makes debugging very easy.
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ## SalesAnalyzer
 
@@ -860,6 +871,7 @@ Since filter() returns an iterator, it converts it to a list.
 Returns the final filtered records.
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ### getTotalSalesByRegion()
 
@@ -895,7 +907,7 @@ If not → start from 0.0.
 Returns the final dictionary.
 
 ---
-
+[⬆ Back to Top](#sales-analytics-system)
 ### getAverageSaleByCategory()
 
 Calculates average sale amount per product category.
@@ -968,6 +980,7 @@ Takes first n elements:
 Group → Sort → Take Top N
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ### getMonthlySalesTrend()
 
@@ -1025,6 +1038,7 @@ Monthly trend
 Record count
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ## Sales Improvements
 
@@ -1135,6 +1149,7 @@ Subsequent methods break.
 A fully streaming solution would require restructuring the analyzer to compute aggregations in a single pass or re-read the file per method, which increases architectural complexity.
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ## Scalability Enhancements
 
@@ -1195,6 +1210,7 @@ I could use a heap-based approach.
 That reduces sorting cost from O(n log n) to O(n log k).
 
 ---
+[⬆ Back to Top](#sales-analytics-system)
 
 ## Testing Coverage
 
