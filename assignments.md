@@ -328,7 +328,7 @@ Rely entirely on join().
 Improves lifecycle safety.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ### 🏅 Add Stress Testing
 
@@ -345,16 +345,73 @@ Concurrency bugs often appear only under stress.
 
 This test suite verifies:
 
-- Correct FIFO data transfer
-- Blocking behavior (full and empty queue)
-- Timeout handling
-- Graceful shutdown
-- Early termination
-- No thread leaks
-- No data loss or duplication
-- Proper error propagation
+SharedQueue Tests
+
+1️⃣ Basic enqueue/dequeue
+
+Verifies that an item added to the queue can be retrieved correctly.
+
+Confirms FIFO behavior works.
+
+2️⃣ Dequeue timeout when empty
+
+Ensures dequeue() raises TimeoutError if the queue is empty.
+
+Validates correct blocking behavior.
+
+3️⃣ Enqueue timeout when full
+
+Ensures enqueue() raises TimeoutError when the queue is full.
+
+Validates bounded capacity enforcement.
+
+4️⃣ Stop unblocks waiters
+
+After calling stop():
+
+enqueue() raises TransferStoppedError
+
+dequeue() works for remaining items
+
+Further dequeue() raises TransferStoppedError
+
+Confirms graceful shutdown logic.
+
+🔹 DataTransferManager Tests
+
+5️⃣ Complete transfer
+
+Verifies:
+
+All items are transferred
+
+No data loss
+
+FIFO order preserved
+
+Produced count = Consumed count
+
+6️⃣ Early stop
+
+Stops transfer mid-way.
+
+Ensures:
+
+Threads terminate cleanly
+
+No hanging threads
+
+7️⃣ waitForCompletion timeout
+
+Forces timeout scenario.
+
+Ensures:
+
+TimeoutError is raised correctly
+
+Threads are cleaned up afterward
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ## Test Suite: `TestSharedQueue`
 
@@ -411,7 +468,7 @@ Expected result:
 - No deadlock occurs during shutdown.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 ## Test Suite: `TestDataTransferManager`
 
@@ -471,7 +528,7 @@ Then:
 - No indefinite blocking.
 
 ---
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 
 # Scaling
 
@@ -604,7 +661,7 @@ And the broker handles:
 
 So this is the true “scale-out” step.
 
-[⬆ Back to Top](#sales-analytics-system)
+[⬆ Back to Top](#top)
 # Design Assumptions
 
 ## 1️⃣ Single Producer and Single Consumer
