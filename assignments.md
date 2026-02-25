@@ -26,7 +26,7 @@
   - [getTopSalespersons](#gettopsalespersons)
   - [getMonthlySalesTrend](#getmonthlysalestrend)
   - [generateSummaryReport](#generatesummaryreport)
-- [Improvements](#improvements)
+- [Sales Improvements](#sales-improvements)
 - [Scalability Enhancements](#scalability-enhancements)
 - [Testing Coverage](#testing-coverage)
 - [Assumptions](#assumptions)
@@ -896,7 +896,7 @@ Record count
 
 ---
 
-## Improvements
+## Sales Improvements
 
 1️⃣ Validate totalAmount Consistency  
 Right now:
